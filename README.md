@@ -2,7 +2,7 @@
 WildCaves3
 ==========
 
-This is the repository for the "Wild Caves 3" mod. 
+This is the repository for the "Wild Caves 3" mod.
 Mod page: http://www.minecraftforum.net/topic/1554854-162forge-wildcaves-3-v0433/
 
 
