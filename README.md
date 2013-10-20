@@ -10,7 +10,7 @@ Mod page: http://www.minecraftforum.net/topic/1554854-162forge-wildcaves-3-v0433
 ============
 Contributing
 ============
-Remember that the idea of the mod is to improve the feeling and look of vanilla caves and not to add new tool set, armor sets, etc.
+Remember that the idea of the mod is to improve the feeling and look of vanilla caves and not to add new tool sets, armor sets, etc.
 
 If you wish to submit a pull request to fix bugs or broken behaviour feel free to do so.
 
