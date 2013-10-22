@@ -43,7 +43,7 @@ public class WildCaves {
 	public void initBlocks() {
 		if (blockStoneStalactiteID != 0) {
 			blockStoneStalactite = new BlockStoneStalactite(blockStoneStalactiteID, solidStalactites, damageWhenFallenOn);
-			Item.itemsList[blockStoneStalactiteID] = new ItemStoneStalactite(blockStoneStalactiteID - 256, blockStoneStalactite);
+			Item.itemsList[blockStoneStalactiteID] = new ItemStoneStalactite(blockStoneStalactiteID - 256);
 			LanguageRegistry.instance().addStringLocalization("stalactite1.name", "Stalactite");
 			LanguageRegistry.instance().addStringLocalization("stalactite2.name", "Stalactite");
 			LanguageRegistry.instance().addStringLocalization("stalactite3.name", "Stalactite");
@@ -60,7 +60,7 @@ public class WildCaves {
 		}
 		if (blockSandStalactiteID != 0) {
 			blockSandStalactite = new BlockSandstoneStalactite(blockSandStalactiteID, solidStalactites, damageWhenFallenOn);
-			Item.itemsList[blockSandStalactiteID] = new ItemSandstoneStalactite(blockSandStalactiteID - 256, blockSandStalactite);
+			Item.itemsList[blockSandStalactiteID] = new ItemSandstoneStalactite(blockSandStalactiteID - 256);
 			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite1.name", "Sandstone Stalactite");
 			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite2.name", "Sandstone Stalactite");
 			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite3.name", "Sandstone Stalactite");
