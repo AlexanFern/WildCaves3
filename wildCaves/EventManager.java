@@ -54,12 +54,13 @@ public class EventManager implements IWorldGenerator
           assert maxZ > 0 && maxZ <= 16: "addOreSpawn: The Maximum Z must be greater than 0 and less than 16";
          
           int diffBtwnMinMaxY = maxY - minY;
+          WorldGenMinable mine = new WorldGenMinable(block.blockID, maxVeinSize);
           for(int x = 0; x < chancesToSpawn; x++)
           {
                  int posX = blockXPos + random.nextInt(maxX);
                  int posY = minY + random.nextInt(diffBtwnMinMaxY);
                  int posZ = blockZPos + random.nextInt(maxZ);
-                 (new WorldGenMinable(block.blockID, maxVeinSize)).generate(world, random, posX, posY, posZ);
+                 mine.generate(world, random, posX, posY, posZ);
           }
     }
 }

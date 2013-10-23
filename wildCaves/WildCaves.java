@@ -44,14 +44,10 @@ public class WildCaves {
 		if (blockStoneStalactiteID != 0) {
 			blockStoneStalactite = new BlockStoneStalactite(blockStoneStalactiteID, solidStalactites, damageWhenFallenOn);
 			Item.itemsList[blockStoneStalactiteID] = new ItemStoneStalactite(blockStoneStalactiteID - 256);
-			LanguageRegistry.instance().addStringLocalization("stalactite1.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactite2.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactite3.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactite4.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactiteConnection1.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactiteConnection2.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactiteConnection3.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalactiteConnection4.name", "Stalactite");
+			for (int i = 1; i < 5; i++) {
+				LanguageRegistry.instance().addStringLocalization("stalactite" + i + ".name", "Stalactite");
+				LanguageRegistry.instance().addStringLocalization("stalactiteConnection" + i + ".name", "Stalactite");
+			}
 			LanguageRegistry.instance().addStringLocalization("stalactiteEnd.name", "Stalactite");
 			LanguageRegistry.instance().addStringLocalization("stalacmiteEnd.name", "Stalactite");
 			LanguageRegistry.instance().addStringLocalization("stalacmite1.name", "Stalagmite");
@@ -61,14 +57,10 @@ public class WildCaves {
 		if (blockSandStalactiteID != 0) {
 			blockSandStalactite = new BlockSandstoneStalactite(blockSandStalactiteID, solidStalactites, damageWhenFallenOn);
 			Item.itemsList[blockSandStalactiteID] = new ItemSandstoneStalactite(blockSandStalactiteID - 256);
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite1.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite2.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite3.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactite4.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteConnection1.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteConnection2.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteConnection3.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteConnection4.name", "Sandstone Stalactite");
+			for (int i = 1; i < 5; i++) {
+				LanguageRegistry.instance().addStringLocalization("sandstoneStalactite" + i + ".name", "Sandstone Stalactite");
+				LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteConnection" + i + ".name", "Sandstone Stalactite");
+			}
 			LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteEnd.name", "Sandstone Stalactite");
 			LanguageRegistry.instance().addStringLocalization("sandstoneStalacmiteEnd.name", "Sandstone Stalactite");
 			LanguageRegistry.instance().addStringLocalization("sandstoneStalacmite1.name", "Sandstone stalagmite");
@@ -78,23 +70,22 @@ public class WildCaves {
 		if (blockDecorationsID != 0) {
 			blockDecorations = new BlockDecorations(blockDecorationsID);
 			Item.itemsList[blockDecorationsID] = new ItemDecoration(blockDecorationsID - 256);
-			LanguageRegistry.instance().addStringLocalization("icicle1.name", "Icicle");
-			LanguageRegistry.instance().addStringLocalization("icicle2.name", "Icicle");
-			LanguageRegistry.instance().addStringLocalization("icicle3.name", "Icicle");
+			for (int i = 1; i < 4; i++) {
+				LanguageRegistry.instance().addStringLocalization("icicle" + i + ".name", "Icicle");
+			}
 		}
 		if (blockFloraID != 0) {
 			blockFlora = new BlockFlora(blockFloraID, floraLightLevel);
 			Item.itemsList[blockFloraID] = new ItemFlora(blockFloraID - 256);
-			LanguageRegistry.instance().addStringLocalization("glowcap1.name", "Glowcap");
-			LanguageRegistry.instance().addStringLocalization("glowcap2.name", "Glowcap");
-			LanguageRegistry.instance().addStringLocalization("glowcap3.name", "Glowcap");
+			for (int i = 1; i < 4; i++) {
+				LanguageRegistry.instance().addStringLocalization("glowcap" + i + ".name", "Glowcap");
+			}
 			LanguageRegistry.instance().addStringLocalization("gloweed1.name", "Glow weed");
 			LanguageRegistry.instance().addStringLocalization("glowcap4top.name", "Glowcap");
 			LanguageRegistry.instance().addStringLocalization("glowcap4bottom.name", "Glowcap");
-			LanguageRegistry.instance().addStringLocalization("bluecap1.name", "Iceshroom");
-			LanguageRegistry.instance().addStringLocalization("bluecap2.name", "Iceshroom");
-			LanguageRegistry.instance().addStringLocalization("bluecap3.name", "Iceshroom");
-			LanguageRegistry.instance().addStringLocalization("bluecap4.name", "Iceshroom");
+			for (int i = 1; i < 5; i++) {
+				LanguageRegistry.instance().addStringLocalization("bluecap" + i + ".name", "Iceshroom");
+			}
 		}
 		if (blockFossilsID != 0) {
 			blockFossils = new BlockFossils(blockFossilsID);
@@ -110,18 +101,13 @@ public class WildCaves {
 		WorldGenWildCaves gen = new WorldGenWildCaves(config);
 		GameRegistry.registerWorldGenerator(gen);
 		//new itemstack(itemID, stackSize, damage)
-		ChestGenHooks.getInfo("DUNGEON_CHEST").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 0), 1, 2, 50));//skeleton
-		ChestGenHooks.getInfo("DUNGEON_CHEST").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 2), 1, 2, 50));//zombie
-		ChestGenHooks.getInfo("DUNGEON_CHEST").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 3), 1, 2, 50));//steve
-		ChestGenHooks.getInfo("DUNGEON_CHEST").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 4), 1, 2, 50));//creeper
-		ChestGenHooks.getInfo("MINESHAFT_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 0), 1, 2, 50));//skeleton
-		ChestGenHooks.getInfo("MINESHAFT_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 2), 1, 2, 50));//zombie
-		ChestGenHooks.getInfo("MINESHAFT_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 3), 1, 2, 50));//steve
-		ChestGenHooks.getInfo("MINESHAFT_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 4), 1, 2, 50));//creeper
-		ChestGenHooks.getInfo("STRONGHOLD_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 0), 1, 2, 50));//skeleton
-		ChestGenHooks.getInfo("STRONGHOLD_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 2), 1, 2, 50));//zombie
-		ChestGenHooks.getInfo("STRONGHOLD_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 3), 1, 2, 50));//steve
-		ChestGenHooks.getInfo("STRONGHOLD_CORRIDOR").addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 4), 1, 2, 50));//creeper
+		for (String txt : new String[] { "DUNGEON_CHEST", "MINESHAFT_CORRIDOR", "STRONGHOLD_CORRIDOR" }) {
+			for (int i = 0; i < 5; i++) {
+				if (i != 1) {
+					ChestGenHooks.getInfo(txt).addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 0), 1, 2, 50));//skeleton//zombie//steve//creeper
+				}
+			}
+		}
 		if (blockFossilsID != 0) {
 			eventmanager = new EventManager(chanceForNodeToSpawn);
 			GameRegistry.registerWorldGenerator(eventmanager);
@@ -134,11 +120,11 @@ public class WildCaves {
 		try {
 			config.load();
 			//--block IDs--------
-			blockStoneStalactiteID = config.get(Configuration.CATEGORY_BLOCK, "Stalactite ID", 600).getInt(600);
-			blockSandStalactiteID = config.get(Configuration.CATEGORY_BLOCK, "Sandstone Stalactite ID", 601).getInt(601);
-			blockFloraID = config.get(Configuration.CATEGORY_BLOCK, "Flora ID", 602).getInt(602);
-			blockDecorationsID = config.get(Configuration.CATEGORY_BLOCK, "Decorations ID", 603).getInt(603);
-			blockFossilsID = config.get(Configuration.CATEGORY_BLOCK, "Fossils ID", 604).getInt(604);
+			blockStoneStalactiteID = config.getBlock("Stalactite ID", 600).getInt(600);
+			blockSandStalactiteID = config.getBlock("Sandstone Stalactite ID", 601).getInt(601);
+			blockFloraID = config.getBlock("Flora ID", 602).getInt(602);
+			blockDecorationsID = config.getBlock("Decorations ID", 603).getInt(603);
+			blockFossilsID = config.getBlock("Fossils ID", 604).getInt(604);
 			solidStalactites = config.get(Configuration.CATEGORY_GENERAL, "Solid stalactites/stalgmites", false).getBoolean(false);
 			damageWhenFallenOn = config.get(Configuration.CATEGORY_GENERAL, "Stalgmites damage entities when fallen on", false).getBoolean(false);
 			floraLightLevel = config.get(Configuration.CATEGORY_GENERAL, "Flora light level", 5).getInt(5);
