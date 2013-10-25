@@ -22,40 +22,35 @@ public class WorldGenWildCaves implements IWorldGenerator {
 	private static boolean stalactites;
 	private static boolean sandstoneStalactites;
 	private static boolean Flora;
-	private static float probabilityVinesJungle;
-	private static float probabilityVines;
-	private static float probabilityIcicle;
-	private static float probabilityWet;
-	private static float probabilityDry;
-	private static float probabilityGlowcapsHumid;
-	private static float probabilityGlowcaps;
-	private static float probabilityIceshrooms;
-	private static float probabilityStalactite;
-	private static float probabilitySpiderWeb;
-	private static float probabilitySandStalactites;
-	private static float probabilitySkulls;
-	private static int maxGenHeight;
-	private static int maxLength;
+	public static float probabilityVinesJungle;
+	public static float probabilityVines;
+	public static float probabilityIcicle;
+	public static float probabilityWet;
+	public static float probabilityDry;
+	public static float probabilityGlowcapsHumid;
+	public static float probabilityGlowcaps;
+	public static float probabilityIceshrooms;
+	public static float probabilityStalactite;
+	public static float probabilitySpiderWeb;
+	public static float probabilitySandStalactites;
+	public static float probabilitySkulls;
+	public static int maxGenHeight;
+	public static int maxLength;
 	private static int timesPerChunck = 50;
-	private static int maxGenHeightGlowcapNormal;
+	public static int maxGenHeightGlowcapNormal;
 	private static int[] dimensionBlacklist;
 	private static int[] blockWhiteList;
 	private Configuration config;
 	private GenerateStoneStalactite stalactiteGen;
-	private GenerationJungle jungleGen;
-	private GenerationHumid wetGen;
-	private GenerationArid aridGen;
-	private GenerationNormal normalGen;
-	private GenerationFrozen frozenGen;
+	private static final GenerationJungle jungleGen = new GenerationJungle();
+	private static final GenerationHumid wetGen = new GenerationHumid();
+	private static final GenerationArid aridGen = new GenerationArid();
+	private static final GenerationNormal normalGen = new GenerationNormal();
+	private static final GenerationFrozen frozenGen = new GenerationFrozen();
 	private GenerateFloodedCaves floodCave;
 
 	public WorldGenWildCaves(Configuration config) {
 		setConfig(config);
-		jungleGen = new GenerationJungle(probabilityStalactite, maxLength, probabilityVinesJungle, probabilityGlowcapsHumid, probabilitySpiderWeb, probabilitySkulls);
-		wetGen = new GenerationHumid(probabilityStalactite, maxLength, probabilityWet, probabilityGlowcapsHumid, probabilityVines, probabilitySpiderWeb, probabilitySkulls);
-		aridGen = new GenerationArid(probabilityStalactite, maxLength, probabilitySandStalactites, probabilitySpiderWeb, probabilityDry, probabilitySkulls);
-		normalGen = new GenerationNormal(probabilityStalactite, maxLength, probabilityVines, probabilityGlowcaps, probabilitySpiderWeb, probabilitySkulls, maxGenHeightGlowcapNormal);
-		frozenGen = new GenerationFrozen(probabilityStalactite, maxLength, probabilityIceshrooms, probabilitySpiderWeb, probabilityIcicle, probabilitySkulls);
 	}
 
 	@Override
@@ -99,7 +94,7 @@ public class WorldGenWildCaves implements IWorldGenerator {
 		}
 	}
 
-	private void setConfig(Configuration config) {
+	private static void setConfig(Configuration config) {
 		try {
 			config.load();
 			// --generation permissions------
