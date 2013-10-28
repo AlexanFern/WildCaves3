@@ -43,7 +43,6 @@ public abstract class BlockStalactite extends Block {
 			result = connected(world, x, y, z, false);
 		else if (metadata == 0 || metadata == 4 || metadata == 5)
 			result = connected(world, x, y, z, true) || connected(world, x, y, z, false);
-		;
 		return result;
 	}
 
@@ -61,7 +60,7 @@ public abstract class BlockStalactite extends Block {
 		else
 			increment = -1;
 		i = increment;
-		while (world.getBlockId(x, y + i, z) == WildCaves.blockStoneStalactiteID || world.getBlockId(x, y + i, z) == WildCaves.blockSandStalactiteID)
+		while (world.getBlockId(x, y + i, z) == WildCaves.blockStoneStalactite.blockID || world.getBlockId(x, y + i, z) == WildCaves.blockSandStalactite.blockID)
 			i = i + increment;
 		return world.isBlockNormalCube(x, y + i, z);
 	}

@@ -63,12 +63,12 @@ public abstract class ItemStalactite extends MultiItemBlock {
 			return false;
 		} else if (y == 255) {
 			return false;
-		} else if (world.canPlaceEntityOnSide(WildCaves.blockStoneStalactiteID, x, y, z, false, side, par2EntityPlayer, itemStack)
-				|| world.canPlaceEntityOnSide(WildCaves.blockSandStalactiteID, x, y, z, false, side, par2EntityPlayer, itemStack)) {
+		} else if (world.canPlaceEntityOnSide(WildCaves.blockStoneStalactite.blockID, x, y, z, false, side, par2EntityPlayer, itemStack)
+				|| world.canPlaceEntityOnSide(WildCaves.blockSandStalactite.blockID, x, y, z, false, side, par2EntityPlayer, itemStack)) {
 			if (canPlace(itemStack, world, x, y, z)) {
-				Block block = Block.blocksList[WildCaves.blockStoneStalactiteID];
+				Block block = WildCaves.blockStoneStalactite;
 				int j1 = this.getMetadata(itemStack.getItemDamage());
-				int k1 = Block.blocksList[WildCaves.blockStoneStalactiteID].onBlockPlaced(world, x, y, z, side, par8, par9, par10, j1);
+				int k1 = WildCaves.blockStoneStalactite.onBlockPlaced(world, x, y, z, side, par8, par9, par10, j1);
 				if (placeBlockAt(itemStack, par2EntityPlayer, world, x, y, z, side, par8, par9, par10, k1)) {
 					world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, block.stepSound.getPlaceSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
 					--itemStack.stackSize;
@@ -86,8 +86,8 @@ public abstract class ItemStalactite extends MultiItemBlock {
 		int metadata = getMetadata(itemStack.getItemDamage());
 		boolean upNormal = world.isBlockNormalCube(x, y + 1, z);
 		boolean downNormal = world.isBlockNormalCube(x, y - 1, z);
-		boolean upStalactite = world.getBlockId(x, y + 1, z) == WildCaves.blockStoneStalactiteID || world.getBlockId(x, y + 1, z) == WildCaves.blockSandStalactiteID;
-		boolean downStalactite = world.getBlockId(x, y - 1, z) == WildCaves.blockStoneStalactiteID || world.getBlockId(x, y - 1, z) == WildCaves.blockSandStalactiteID;
+		boolean upStalactite = world.getBlockId(x, y + 1, z) == WildCaves.blockStoneStalactite.blockID || world.getBlockId(x, y + 1, z) == WildCaves.blockSandStalactite.blockID;
+		boolean downStalactite = world.getBlockId(x, y - 1, z) == WildCaves.blockStoneStalactite.blockID || world.getBlockId(x, y - 1, z) == WildCaves.blockSandStalactite.blockID;
 		if ((metadata == 0 || metadata == 4 || metadata == 5) && (upNormal || downNormal || upStalactite || downStalactite))
 			result = true;
 		else if ((metadata < 4 || metadata == 7 || metadata == 11) && (upNormal || upStalactite))
