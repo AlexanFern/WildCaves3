@@ -16,9 +16,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = WildCaves.modid, name = "Wild Caves 3", version = "0.4.3.4")
+@Mod(modid = WildCaves.modid, name = "Wild Caves 3", version = "0.4.3.5")
 @NetworkMod(clientSideRequired = true)
 public class WildCaves {
 	public static final String modid = "wildcaves3";
@@ -26,9 +25,9 @@ public class WildCaves {
 	public static BlockStoneStalactite blockStoneStalactite;
 	public static BlockSandstoneStalactite blockSandStalactite;
 	public static int floraLightLevel;
-	public static int blockStoneStalactiteID, blockSandStalactiteID, blockFloraID;
+	private static int blockStoneStalactiteID, blockSandStalactiteID, blockFloraID;
 	public static int timesPerChunck;
-	public static int blockDecorationsID, blockFossilsID;
+	private static int blockDecorationsID, blockFossilsID;
 	public static int chanceForNodeToSpawn;
 	private boolean solidStalactites, damageWhenFallenOn;
 	public static Configuration config;
@@ -41,58 +40,26 @@ public class WildCaves {
 	};
 
 	public void initBlocks() {
-		if (blockStoneStalactiteID != 0) {
+		if (blockStoneStalactiteID > 0) {
 			blockStoneStalactite = new BlockStoneStalactite(blockStoneStalactiteID, solidStalactites, damageWhenFallenOn);
-			Item.itemsList[blockStoneStalactiteID] = new ItemStoneStalactite(blockStoneStalactiteID - 256);
-			for (int i = 1; i < 5; i++) {
-				LanguageRegistry.instance().addStringLocalization("stalactite" + i + ".name", "Stalactite");
-				LanguageRegistry.instance().addStringLocalization("stalactiteConnection" + i + ".name", "Stalactite");
-			}
-			LanguageRegistry.instance().addStringLocalization("stalactiteEnd.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalacmiteEnd.name", "Stalactite");
-			LanguageRegistry.instance().addStringLocalization("stalacmite1.name", "Stalagmite");
-			LanguageRegistry.instance().addStringLocalization("stalacmite2.name", "Stalagmite");
-			LanguageRegistry.instance().addStringLocalization("stalacmite3.name", "Stalagmite");
+			GameRegistry.registerBlock(blockStoneStalactite, ItemStoneStalactite.class, "StoneStalactite");
 		}
-		if (blockSandStalactiteID != 0) {
+		if (blockSandStalactiteID > 0) {
 			blockSandStalactite = new BlockSandstoneStalactite(blockSandStalactiteID, solidStalactites, damageWhenFallenOn);
-			Item.itemsList[blockSandStalactiteID] = new ItemSandstoneStalactite(blockSandStalactiteID - 256);
-			for (int i = 1; i < 5; i++) {
-				LanguageRegistry.instance().addStringLocalization("sandstoneStalactite" + i + ".name", "Sandstone Stalactite");
-				LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteConnection" + i + ".name", "Sandstone Stalactite");
-			}
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalactiteEnd.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalacmiteEnd.name", "Sandstone Stalactite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalacmite1.name", "Sandstone stalagmite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalacmite2.name", "Sandstone stalagmite");
-			LanguageRegistry.instance().addStringLocalization("sandstoneStalacmite3.name", "Sandstone stalagmite");
+			GameRegistry.registerBlock(blockSandStalactite, ItemSandstoneStalactite.class, "SandstoneSalactite");
 		}
-		if (blockDecorationsID != 0) {
+		if (blockDecorationsID > 0) {
 			blockDecorations = new BlockDecorations(blockDecorationsID);
-			Item.itemsList[blockDecorationsID] = new ItemDecoration(blockDecorationsID - 256);
-			for (int i = 1; i < 4; i++) {
-				LanguageRegistry.instance().addStringLocalization("icicle" + i + ".name", "Icicle");
-			}
+			GameRegistry.registerBlock(blockDecorations, ItemDecoration.class, "Decorations");
 		}
-		if (blockFloraID != 0) {
+		if (blockFloraID > 0) {
 			blockFlora = new BlockFlora(blockFloraID, floraLightLevel);
-			Item.itemsList[blockFloraID] = new ItemFlora(blockFloraID - 256);
-			for (int i = 1; i < 4; i++) {
-				LanguageRegistry.instance().addStringLocalization("glowcap" + i + ".name", "Glowcap");
-			}
-			LanguageRegistry.instance().addStringLocalization("gloweed1.name", "Glow weed");
-			LanguageRegistry.instance().addStringLocalization("glowcap4top.name", "Glowcap");
-			LanguageRegistry.instance().addStringLocalization("glowcap4bottom.name", "Glowcap");
-			for (int i = 1; i < 5; i++) {
-				LanguageRegistry.instance().addStringLocalization("bluecap" + i + ".name", "Iceshroom");
-			}
+			GameRegistry.registerBlock(blockFlora, ItemFlora.class, "Flora");
 		}
-		if (blockFossilsID != 0) {
+		if (blockFossilsID > 0) {
 			blockFossils = new BlockFossils(blockFossilsID);
 			Item.itemsList[blockFossilsID] = new MultiItemBlock(blockFossilsID - 256, "fossil1").setUnlocalizedName("fossilBlock");
-			LanguageRegistry.instance().addStringLocalization("fossil1.name", "Bone pile");
 		}
-		LanguageRegistry.instance().addStringLocalization("itemGroup.WildCaves3", "en_US", "Wild Caves 3");
 	}
 
 	@EventHandler
@@ -108,7 +75,7 @@ public class WildCaves {
 				}
 			}
 		}
-		if (blockFossilsID != 0) {
+		if (blockFossilsID > 0) {
 			eventmanager = new EventManager(chanceForNodeToSpawn);
 			GameRegistry.registerWorldGenerator(eventmanager);
 		}
