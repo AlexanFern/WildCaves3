@@ -6,18 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
 public class Utils {
-	//checks if a given int is in the given array
-	public static boolean arrayContainsInt(int[] array, int a) {
-		boolean result = false;
-		int i = 0;
-		while (i < array.length && !result) {
-			if (array[i] == a)
-				result = true;
-			i++;
-		}
-		return result;
-	}
-
 	// transforms an area into snow and ice
 	public static void convertToFrozenType(World world, Random random, int x, int y, int z) {
 		int height = random.nextInt(5) + 3;

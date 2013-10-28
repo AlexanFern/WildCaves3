@@ -1,5 +1,7 @@
 package wildCaves;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -38,9 +40,8 @@ public class WorldGenWildCaves implements IWorldGenerator {
 	public static int maxLength;
 	private static int timesPerChunck = 50;
 	public static int maxGenHeightGlowcapNormal;
-	private static int[] dimensionBlacklist;
-	private static int[] blockWhiteList;
-	private Configuration config;
+	private static List<Integer> dimensionBlacklist = new ArrayList();
+	private static List<Integer> blockWhiteList = new ArrayList();
 	private GenerateStoneStalactite stalactiteGen;
 	private static final GenerationJungle jungleGen = new GenerationJungle();
 	private static final GenerationHumid wetGen = new GenerationHumid();
@@ -64,14 +65,14 @@ public class WorldGenWildCaves implements IWorldGenerator {
 		int dist;// distance
 		BiomeGenBase biome;
 		//if( world.provider.dimensionId != 1 && world.provider.dimensionId != -1) // !world.provider.isHellWorld)
-		if (!Utils.arrayContainsInt(dimensionBlacklist, world.provider.dimensionId)) {
+		if (!dimensionBlacklist.contains(world.provider.dimensionId)) {
 			for (int i = 0; i < timesPerChunck; i++) {
 				genStalactiteNow = true;
 				Xcoord = blockX + random.nextInt(16);
 				Ycoord = random.nextInt(maxGenHeight);
 				Zcoord = blockZ + random.nextInt(16);
 				// search for the first available spot
-				while (!(Utils.arrayContainsInt(blockWhiteList, world.getBlockId(Xcoord, Ycoord + 1, Zcoord)) && world.isAirBlock(Xcoord, Ycoord, Zcoord)) && Ycoord > 10) {
+				while (!(blockWhiteList.contains(world.getBlockId(Xcoord, Ycoord + 1, Zcoord)) && world.isAirBlock(Xcoord, Ycoord, Zcoord)) && Ycoord > 10) {
 					Ycoord--;
 				}
 				// found a spot
@@ -101,8 +102,20 @@ public class WorldGenWildCaves implements IWorldGenerator {
 			sandstoneStalactites = config.get("Permissions", "Generate Sandstone stalactites on arid biomes", true).getBoolean(true);
 			Flora = config.get("Permissions", "Generate flora on caves", true).getBoolean(true);
 			stalactites = config.get("Permissions", "Generate stalactites on caves", true).getBoolean(true);
-			dimensionBlacklist = config.get("Permissions", "Dimension Blacklist", new int[] { -1, 1 }).getIntList();
-			blockWhiteList = config.get("Permissions", "Block white list", new int[] { 1, 2, 3, 4, 13, 14, 15, 16, 21, 24, 56, 73, 74, 79, 80, 82, 97, 129 }).getIntList();
+			String[] list = config.get("Permissions", "Dimension Blacklist", "-1,1").getString().split(",");
+			for (String txt : list) {
+				try {
+					dimensionBlacklist.add(Integer.parseInt(txt.trim()));
+				} catch (NumberFormatException n) {
+				}
+			}
+			list = config.get("Permissions", "Block white list", "1,2,3,4,13,14,15,16,21,24,56,73,74,79,80,82,97,129").getString().split(",");
+			for (String txt : list) {
+				try {
+					blockWhiteList.add(Integer.parseInt(txt.trim()));
+				} catch (NumberFormatException n) {
+				}
+			}
 			// --Biome specific ratios------
 			probabilityVinesJungle = (float) config.get("Biome specific", "Probability of vines on jungle caves", 0.5).getDouble(0.5);
 			probabilityIcicle = (float) config.get("Biome specific", "Probability of iciles on frozen caves", 0.6).getDouble(0.6);
