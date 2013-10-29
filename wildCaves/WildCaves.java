@@ -66,7 +66,9 @@ public class WildCaves {
 	public void load(FMLInitializationEvent event) {
 		initBlocks();
 		WorldGenWildCaves gen = new WorldGenWildCaves(config);
-		GameRegistry.registerWorldGenerator(gen);
+		if (gen.maxLength > 0) {
+			GameRegistry.registerWorldGenerator(gen);
+		}
 		//new itemstack(itemID, stackSize, damage)
 		for (String txt : new String[] { "DUNGEON_CHEST", "MINESHAFT_CORRIDOR", "STRONGHOLD_CORRIDOR" }) {
 			for (int i = 0; i < 5; i++) {

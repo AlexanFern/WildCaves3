@@ -64,7 +64,6 @@ public class WorldGenWildCaves implements IWorldGenerator {
 		int Zcoord;
 		int dist;// distance
 		BiomeGenBase biome;
-		//if( world.provider.dimensionId != 1 && world.provider.dimensionId != -1) // !world.provider.isHellWorld)
 		if (!dimensionBlacklist.contains(world.provider.dimensionId)) {
 			for (int i = 0; i < timesPerChunck; i++) {
 				genStalactiteNow = true;
@@ -133,7 +132,7 @@ public class WorldGenWildCaves implements IWorldGenerator {
 			probabilitySkulls = (float) config.get("Non biome specific", "Probability of skulls", 0.0001).getDouble(0.0001);
 			// --other------
 			timesPerChunck = config.get(Configuration.CATEGORY_GENERAL, "times to attemp generating per chunk", 40).getInt();
-			maxGenHeight = config.get(Configuration.CATEGORY_GENERAL, "Max height at wich to generate", 80).getInt();
+			maxGenHeight = config.get(Configuration.CATEGORY_GENERAL, "Max height at which to generate", 80).getInt();
 			maxLength = config.get(Configuration.CATEGORY_GENERAL, "Max length of structure generation", 8).getInt();
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE, e, "WildCaves3 has a problem loading it's configuration");
