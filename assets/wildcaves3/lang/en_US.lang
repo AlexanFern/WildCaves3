@@ -1,4 +1,5 @@
-﻿itemGroup.WildCaves3=Wild Caves 3
+﻿
+itemGroup.WildCaves3=Wild Caves 3
 
 fossil1.name=Bone pile
 
@@ -46,4 +47,3 @@ icicle.name=Icicle
 icicle1.name=Icicle
 icicle2.name=Icicle
 icicle3.name=Icicle
-
