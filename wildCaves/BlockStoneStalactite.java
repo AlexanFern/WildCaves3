@@ -5,8 +5,8 @@ import java.util.Random;
 import net.minecraft.block.Block;
 
 public class BlockStoneStalactite extends BlockStalactite {
-	public BlockStoneStalactite(int id, boolean solidStalactites, boolean damageWhenFallenOn) {
-		super(id, solidStalactites, damageWhenFallenOn);
+	public BlockStoneStalactite(int id) {
+		super(id);
 		setUnlocalizedName("stoneStalactiteBlock");
 		setTextureName(":stoneStructure");
 	}

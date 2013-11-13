@@ -25,10 +25,10 @@ public abstract class ItemStalactite extends MultiItemBlock {
 	}
 
 	@Override
-	public int getMetadata(int damageValue) {
-		if (damageValue > 13)
-			damageValue = 13;
-		return damageValue;
+	public int getMetadata(int damage) {
+		if (damage >= block.getNumOfStructures())
+			damage = block.getNumOfStructures() - 1;
+		return damage;
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,18 +18,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class BlockStalactite extends Block {
-	private int numOfStructures = 13;
-	private boolean solidStalactites;
-	private boolean damageWhenFallenOn;
+	private final int numOfStructures = 13;
 	@SideOnly(Side.CLIENT)
 	private Icon[] iconArray;
 
-	public BlockStalactite(int id, boolean solidStalactites, boolean damageWhenFallenOn) {
+	public BlockStalactite(int id) {
 		super(id, Material.rock);
 		this.setHardness(0.8F);
 		this.setCreativeTab(WildCaves.tabWildCaves);
-		this.solidStalactites = solidStalactites;
-		this.damageWhenFallenOn = damageWhenFallenOn;
 	}
 
 	@Override
@@ -73,7 +68,7 @@ public abstract class BlockStalactite extends Block {
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-		if (solidStalactites)
+		if (WildCaves.solidStalactites)
 			return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 		else
 			return null;
@@ -130,8 +125,8 @@ public abstract class BlockStalactite extends Block {
 
 	@Override
 	public void onFallenUpon(World world, int par2, int par3, int par4, Entity entity, float par6) {
-		if (entity.isEntityAlive() && damageWhenFallenOn) {
-			((EntityLiving) entity).attackEntityFrom(DamageSource.generic, 5);
+		if (WildCaves.damageWhenFallenOn && entity.isEntityAlive()) {
+			entity.attackEntityFrom(DamageSource.generic, 5);
 		}
 	}
 

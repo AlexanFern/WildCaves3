@@ -29,7 +29,7 @@ public class WildCaves {
 	public static int timesPerChunck;
 	private static int blockDecorationsID, blockFossilsID;
 	public static int chanceForNodeToSpawn;
-	private boolean solidStalactites, damageWhenFallenOn;
+	public static boolean solidStalactites, damageWhenFallenOn;
 	public static Configuration config;
 	private EventManager eventmanager;
 	public static CreativeTabs tabWildCaves = new CreativeTabs("WildCaves3") {
@@ -41,11 +41,11 @@ public class WildCaves {
 
 	public void initBlocks() {
 		if (blockStoneStalactiteID > 0) {
-			blockStoneStalactite = new BlockStoneStalactite(blockStoneStalactiteID, solidStalactites, damageWhenFallenOn);
+			blockStoneStalactite = new BlockStoneStalactite(blockStoneStalactiteID);
 			GameRegistry.registerBlock(blockStoneStalactite, ItemStoneStalactite.class, "StoneStalactite");
 		}
 		if (blockSandStalactiteID > 0) {
-			blockSandStalactite = new BlockSandstoneStalactite(blockSandStalactiteID, solidStalactites, damageWhenFallenOn);
+			blockSandStalactite = new BlockSandstoneStalactite(blockSandStalactiteID);
 			GameRegistry.registerBlock(blockSandStalactite, ItemSandstoneStalactite.class, "SandstoneSalactite");
 		}
 		if (blockDecorationsID > 0) {
@@ -58,7 +58,7 @@ public class WildCaves {
 		}
 		if (blockFossilsID > 0) {
 			blockFossils = new BlockFossils(blockFossilsID);
-			Item.itemsList[blockFossilsID] = new MultiItemBlock(blockFossilsID - 256, "fossil1").setUnlocalizedName("fossilBlock");
+			GameRegistry.registerBlock(blockFossils, ItemFossil.class, "FossilBlock");
 		}
 	}
 
