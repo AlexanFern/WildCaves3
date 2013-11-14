@@ -53,7 +53,7 @@ public class WildCaves {
 			GameRegistry.registerBlock(blockDecorations, ItemDecoration.class, "Decorations");
 		}
 		if (blockFloraID > 0) {
-			blockFlora = new BlockFlora(blockFloraID).setLightValue(floraLightLevel);
+			blockFlora = new BlockFlora(blockFloraID).setLightValue(floraLightLevel / 15);
 			GameRegistry.registerBlock(blockFlora, ItemFlora.class, "Flora");
 		}
 		if (blockFossilsID > 0) {
@@ -98,8 +98,7 @@ public class WildCaves {
 			damageWhenFallenOn = config.get(Configuration.CATEGORY_GENERAL, "Stalgmites damage entities when fallen on", false).getBoolean(false);
 			floraLightLevel = config.get(Configuration.CATEGORY_GENERAL, "Flora light level", 5).getInt(5);
 			if (floraLightLevel > 15)
-				floraLightLevel = 5;
-			floraLightLevel = 15 - floraLightLevel; //light level 5 in-game is level 10 in the code for some reason  :V
+				floraLightLevel = 15;
 			chanceForNodeToSpawn = config.get(Configuration.CATEGORY_GENERAL, "Chance for a fossil node to generate", 5).getInt(5);
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE, e, "WildCaves3 had a problem loading it's configuration");
