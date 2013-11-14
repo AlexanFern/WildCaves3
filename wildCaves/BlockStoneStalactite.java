@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 
 public class BlockStoneStalactite extends BlockStalactite {
 	public BlockStoneStalactite(int id) {
-		super(id);
+		super(id, ItemStoneStalactite.stalacs.length);
 		setUnlocalizedName("stoneStalactiteBlock");
 		setTextureName(":stoneStructure");
 	}

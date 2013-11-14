@@ -18,12 +18,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class BlockStalactite extends Block {
-	private final int numOfStructures = 13;
+	private final int numOfStructures;
 	@SideOnly(Side.CLIENT)
 	private Icon[] iconArray;
 
-	public BlockStalactite(int id) {
+	public BlockStalactite(int id, int num) {
 		super(id, Material.rock);
+		this.numOfStructures = num;
 		this.setHardness(0.8F);
 		this.setCreativeTab(WildCaves.tabWildCaves);
 	}
@@ -61,12 +62,6 @@ public abstract class BlockStalactite extends Block {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		return this.iconArray[blockAccess.getBlockMetadata(x, y, z)];
-	}
-
-	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		if (WildCaves.solidStalactites)
 			return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
@@ -82,13 +77,9 @@ public abstract class BlockStalactite extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int metadata) {
-		if (metadata >= getNumOfStructures())
-			metadata = getNumOfStructures() - 1;
+		if (metadata >= numOfStructures)
+			metadata = numOfStructures - 1;
 		return this.iconArray[metadata];
-	}
-
-	public int getNumOfStructures() {
-		return numOfStructures;
 	}
 
 	@Override
@@ -140,7 +131,7 @@ public abstract class BlockStalactite extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.iconArray = new Icon[getNumOfStructures()];
+		this.iconArray = new Icon[numOfStructures];
 		for (int i = 0; i < this.iconArray.length; ++i) {
 			this.iconArray[i] = iconRegister.registerIcon(WildCaves.modid + getTextureName() + i);
 		}

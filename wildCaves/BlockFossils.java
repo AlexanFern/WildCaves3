@@ -13,13 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFossils extends Block {
 	@SideOnly(Side.CLIENT)
 	private Icon[] iconArray;
-	private int numOfStructures = 1;
+	private int numOfStructures = ItemFossil.fossils.length;
 
 	public BlockFossils(int id) {
 		super(id, Material.rock);
@@ -39,15 +38,6 @@ public class BlockFossils extends Block {
 		return 0;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		return this.iconArray[blockAccess.getBlockMetadata(x, y, z)];
-	}
-
-	/**
-	 * Get the block's damage value (for use with pick block).
-	 */
 	@Override
 	public int getDamageValue(World world, int x, int y, int z) {
 		return world.getBlockMetadata(x, y, z);

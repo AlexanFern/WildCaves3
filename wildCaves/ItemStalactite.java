@@ -1,34 +1,13 @@
 package wildCaves;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public abstract class ItemStalactite extends MultiItemBlock {
-	private BlockStalactite block;
-
 	public ItemStalactite(int par1, BlockStalactite block, String... names) {
-		super(par1, names);
-		this.block = block;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public Icon getIconFromDamage(int damage) {
-		if (damage >= block.getNumOfStructures())
-			damage = block.getNumOfStructures() - 1;
-		return block.getIcon(0, damage);
-	}
-
-	@Override
-	public int getMetadata(int damage) {
-		if (damage >= block.getNumOfStructures())
-			damage = block.getNumOfStructures() - 1;
-		return damage;
+		super(par1, block, names);
 	}
 
 	@Override
