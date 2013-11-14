@@ -53,7 +53,7 @@ public class WildCaves {
 			GameRegistry.registerBlock(blockDecorations, ItemDecoration.class, "Decorations");
 		}
 		if (blockFloraID > 0) {
-			blockFlora = new BlockFlora(blockFloraID, floraLightLevel);
+			blockFlora = new BlockFlora(blockFloraID).setLightValue(floraLightLevel);
 			GameRegistry.registerBlock(blockFlora, ItemFlora.class, "Flora");
 		}
 		if (blockFossilsID > 0) {
@@ -73,7 +73,7 @@ public class WildCaves {
 		for (String txt : new String[] { "DUNGEON_CHEST", "MINESHAFT_CORRIDOR", "STRONGHOLD_CORRIDOR" }) {
 			for (int i = 0; i < 5; i++) {
 				if (i != 1) {
-					ChestGenHooks.getInfo(txt).addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, 0), 1, 2, 50));//skeleton//zombie//steve//creeper
+					ChestGenHooks.getInfo(txt).addItem(new WeightedRandomChestContent(new ItemStack(Item.skull.itemID, 1, i), 1, 2, 50));//skeleton//zombie//steve//creeper
 				}
 			}
 		}
