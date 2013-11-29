@@ -19,9 +19,9 @@ public class GenerationNormal extends WorldGenerator {
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z) {
 		boolean success = false;
-		float glowcapsAux = 0;
+		/*float glowcapsAux = 0;
 		if (y < WorldGenWildCaves.maxGenHeightGlowcapNormal)
-			glowcapsAux = WorldGenWildCaves.probabilityGlowcaps;
+			glowcapsAux = WorldGenWildCaves.probabilityGlowcaps;*/
 		switch (Utils.weightedChoise(WorldGenWildCaves.probabilityVines, WorldGenWildCaves.probabilitySpiderWeb, WorldGenWildCaves.probabilityStalactite, WorldGenWildCaves.probabilityGlowcaps,
 				WorldGenWildCaves.probabilitySkulls, 0)) {
 		case 1:

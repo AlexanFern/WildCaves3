@@ -5,18 +5,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.Configuration;
 import wildCaves.generation.biomeGen.GenerationArid;
 import wildCaves.generation.biomeGen.GenerationFrozen;
 import wildCaves.generation.biomeGen.GenerationHumid;
 import wildCaves.generation.biomeGen.GenerationJungle;
 import wildCaves.generation.biomeGen.GenerationNormal;
-import wildCaves.generation.structureGen.GenerateFloodedCaves;
-import wildCaves.generation.structureGen.GenerateStoneStalactite;
-
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -40,15 +37,13 @@ public class WorldGenWildCaves implements IWorldGenerator {
 	public static int maxLength;
 	private static int timesPerChunck = 50;
 	public static int maxGenHeightGlowcapNormal;
-	private static List<Integer> dimensionBlacklist = new ArrayList();
-	private static List<Integer> blockWhiteList = new ArrayList();
-	private GenerateStoneStalactite stalactiteGen;
+	private static List<Integer> dimensionBlacklist = new ArrayList<Integer>();
+	private static List<Integer> blockWhiteList = new ArrayList<Integer>();
 	private static final GenerationJungle jungleGen = new GenerationJungle();
 	private static final GenerationHumid wetGen = new GenerationHumid();
 	private static final GenerationArid aridGen = new GenerationArid();
 	private static final GenerationNormal normalGen = new GenerationNormal();
 	private static final GenerationFrozen frozenGen = new GenerationFrozen();
-	private GenerateFloodedCaves floodCave;
 
 	public WorldGenWildCaves(Configuration config) {
 		setConfig(config);
@@ -56,17 +51,15 @@ public class WorldGenWildCaves implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		boolean genStalactiteNow;
 		int blockX = chunkX * 16;
 		int blockZ = chunkZ * 16;
 		int Xcoord;
 		int Ycoord;
 		int Zcoord;
-		int dist;// distance
+		//int dist;// distance
 		BiomeGenBase biome;
 		if (!dimensionBlacklist.contains(world.provider.dimensionId)) {
 			for (int i = 0; i < timesPerChunck; i++) {
-				genStalactiteNow = true;
 				Xcoord = blockX + random.nextInt(16);
 				Ycoord = random.nextInt(maxGenHeight);
 				Zcoord = blockZ + random.nextInt(16);
@@ -78,7 +71,7 @@ public class WorldGenWildCaves implements IWorldGenerator {
 				if (Ycoord > 10) {
 					// getting the biome
 					biome = world.getBiomeGenForCoords(blockX, blockZ);
-					dist = Utils.getNumEmptyBlocks(world, Xcoord, Ycoord, Zcoord);
+					//dist = Utils.getNumEmptyBlocks(world, Xcoord, Ycoord, Zcoord);
 					if (biome.temperature <= 0.1f)
 						frozenGen.generate(world, random, Xcoord, Ycoord, Zcoord);
 					else if (biome.temperature > 1.5f && biome.rainfall < 0.1f)
