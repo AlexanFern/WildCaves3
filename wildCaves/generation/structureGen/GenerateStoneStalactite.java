@@ -19,12 +19,14 @@ public class GenerateStoneStalactite {
 			int j = 0; // blocks placed
 			int topMetadata = 0;
 			int bottomMetadata = 0;
-			int topY = y;
-			int botY = y - distance + 1;
+			int topY = Math.max(y, y - distance + 1);
+			int botY = Math.min(y, y - distance + 1);
 			int aux;
 			//stalactite base
-			world.setBlock(x, topY, z, blockId, Utils.randomChoise(1, 2, 3, 3), 2);
-			j++;
+			if (!world.isAirBlock(x, topY + 1, z)) {
+				world.setBlock(x, topY, z, blockId, Utils.randomChoise(1, 2, 3, 3), 2);
+				j++;
+			}
 			// stalagmite base
 			if (!world.getBlockMaterial(x, botY, z).isLiquid() && !world.isAirBlock(x, botY - 1, z)) {
 				aux = Utils.randomChoise(-1, 8, 9, 10);
