@@ -26,7 +26,6 @@ public class BlockFlora extends BlockFlower implements IShearable {
 	public BlockFlora(int id) {
 		super(id, Material.plants);
 		this.setCreativeTab(WildCaves.tabWildCaves);
-		this.setTickRandomly(false);
 		this.setLightOpacity(0);
 		this.setStepSound(soundGrassFootstep);
 		setResistance(0.6F);
