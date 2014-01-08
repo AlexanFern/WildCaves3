@@ -14,7 +14,9 @@ public class GenerateSandstoneStalactites {
 		if (world.getBlockId(x, y + 1, z) == Block.stone.blockID)
 			world.setBlock(x, y + 1, z, blockId, 0, 2);
 		if (distance == 1) {
-			world.setBlock(x, y, z, blockId, 0, 2);
+            if (!world.isAirBlock(x, y + 1, z)) {
+                world.setBlock(x, y, z, blockId, 0, 2);
+            }
 		} else {
 			int k = 0; // counter
 			int j = 0; // blocks placed
@@ -41,7 +43,7 @@ public class GenerateSandstoneStalactites {
 					Utils.convertToSandType(world, random, x, botY, z);
 				}
 			}
-			if (distance > 2) {
+			if (distance > 2 && j>2) {
 				while (k < maxLength && topY >= botY && j < distance && !world.getBlockMaterial(x, topY - 1, z).isLiquid()) {
 					k++;
 					topMetadata = world.getBlockMetadata(x, topY, z);
