@@ -102,11 +102,16 @@ public abstract class BlockStalactite extends Block {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
-		if (!world.isRemote && !this.canBlockStay(world, x, y, z)) {
-			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(this.blockID, 1, world.getBlockMetadata(x, y, z)));
-			world.setBlockToAir(x, y, z);
-		}
+		this.onBlockAdded(world, x, y, z);
 	}
+
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z) {
+        if (!world.isRemote && !this.canBlockStay(world, x, y, z)) {
+            this.dropBlockAsItem_do(world, x, y, z, new ItemStack(this.blockID, 1, world.getBlockMetadata(x, y, z)));
+            world.setBlockToAir(x, y, z);
+        }
+    }
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {

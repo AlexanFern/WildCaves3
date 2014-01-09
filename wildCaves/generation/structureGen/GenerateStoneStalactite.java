@@ -12,15 +12,13 @@ public class GenerateStoneStalactite {
 		boolean stalagmiteGenerated = false;
 		int blockId = WildCaves.blockStoneStalactite.blockID;
 		if (distance == 1) {
-			//x,y,z,blockID, metadate, set the last one to 2
+			//x,y,z,blockID, metadate, no update
             if (!world.isAirBlock(x, y + 1, z)) {
 			    world.setBlock(x, y, z, blockId, 0, 2);
             }
 		} else {
 			int k = 0; // counter
 			int j = 0; // blocks placed
-			int topMetadata = 0;
-			int bottomMetadata = 0;
 			int topY = Math.max(y, y - distance + 1);
 			int botY = Math.min(y, y - distance + 1);
 			int aux;
@@ -38,7 +36,9 @@ public class GenerateStoneStalactite {
 					stalagmiteGenerated = true;
 				}
 			}
-			if (distance > 2 && j>2) {
+			if (j==2) {
+                int topMetadata = 0;
+                int bottomMetadata = 0;
 				while (k < maxLength && topY >= botY && j < distance && !world.getBlockMaterial(x, topY - 1, z).isLiquid()) {
 					k++;
 					topMetadata = world.getBlockMetadata(x, topY, z);

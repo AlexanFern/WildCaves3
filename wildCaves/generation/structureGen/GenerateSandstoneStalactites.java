@@ -11,8 +11,6 @@ public class GenerateSandstoneStalactites {
 	public static void generate(World world, Random random, int x, int y, int z, int distance, int maxLength) {
 		boolean stalagmiteGenerated = false;
 		int blockId = WildCaves.blockSandStalactite.blockID;
-		if (world.getBlockId(x, y + 1, z) == Block.stone.blockID)
-			world.setBlock(x, y + 1, z, blockId, 0, 2);
 		if (distance == 1) {
             if (!world.isAirBlock(x, y + 1, z)) {
                 world.setBlock(x, y, z, blockId, 0, 2);
@@ -20,8 +18,6 @@ public class GenerateSandstoneStalactites {
 		} else {
 			int k = 0; // counter
 			int j = 0; // blocks placed
-			int topMetadata = 0;
-			int bottomMetadata = 0;
 			int topY = Math.max(y, y - distance + 1);
 			int botY = Math.min(y, y - distance + 1);
 			int aux;
@@ -43,7 +39,9 @@ public class GenerateSandstoneStalactites {
 					Utils.convertToSandType(world, random, x, botY, z);
 				}
 			}
-			if (distance > 2 && j>2) {
+			if (j==2) {
+                int topMetadata = 0;
+                int bottomMetadata = 0;
 				while (k < maxLength && topY >= botY && j < distance && !world.getBlockMaterial(x, topY - 1, z).isLiquid()) {
 					k++;
 					topMetadata = world.getBlockMetadata(x, topY, z);
