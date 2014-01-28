@@ -2,11 +2,10 @@ package wildCaves.generation.structureGen;
 
 import java.util.Random;
 
+import net.minecraft.init.Blocks;
 import wildCaves.Utils;
 
-import net.minecraft.block.Block;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Facing;
 import net.minecraft.world.World;
 
 public class GenerateVines
@@ -29,9 +28,9 @@ public class GenerateVines
 		
 		// length of the vine
 		int i=0;
-		while(i<aux && !world.getBlockMaterial(x, y-i, z).isLiquid())
+		while(i<aux && !world.func_147439_a(x, y-i, z).func_149688_o().isLiquid())
 		{
-			world.setBlock(x, y - i, z, Block.vine.blockID,	1 << Direction.facingToDirection[side], 0);
+			world.func_147465_d(x, y - i, z, Blocks.vine, 1 << Direction.facingToDirection[side], 0);
 			//world.setBlock(x, y - i, z, Block.vine.blockID,	1 << Direction.vineGrowth[Facing.faceToSide[side]], 0);
 			i+=1;
 		}

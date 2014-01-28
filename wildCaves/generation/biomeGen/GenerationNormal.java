@@ -2,7 +2,7 @@ package wildCaves.generation.biomeGen;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import wildCaves.Utils;
@@ -19,9 +19,6 @@ public class GenerationNormal extends WorldGenerator {
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z) {
 		boolean success = false;
-		/*float glowcapsAux = 0;
-		if (y < WorldGenWildCaves.maxGenHeightGlowcapNormal)
-			glowcapsAux = WorldGenWildCaves.probabilityGlowcaps;*/
 		switch (Utils.weightedChoise(WorldGenWildCaves.probabilityVines, WorldGenWildCaves.probabilitySpiderWeb, WorldGenWildCaves.probabilityStalactite, WorldGenWildCaves.probabilityGlowcaps,
 				WorldGenWildCaves.probabilitySkulls, 0)) {
 		case 1:
@@ -29,7 +26,7 @@ public class GenerationNormal extends WorldGenerator {
 			success = true;
 			break;
 		case 2:
-			world.setBlock(x, y, z, Block.web.blockID);
+			world.func_147465_d(x, y, z, Blocks.web, 0, 2);
 			break;
 		case 3:
 			GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);

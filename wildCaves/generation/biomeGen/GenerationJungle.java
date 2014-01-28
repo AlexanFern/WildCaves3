@@ -2,6 +2,7 @@ package wildCaves.generation.biomeGen;
 
 import java.util.Random;
 
+import net.minecraft.init.Blocks;
 import wildCaves.Utils;
 import wildCaves.WorldGenWildCaves;
 import wildCaves.generation.structureGen.GenerateGlowcaps;
@@ -9,7 +10,6 @@ import wildCaves.generation.structureGen.GenerateSkulls;
 import wildCaves.generation.structureGen.GenerateStoneStalactite;
 import wildCaves.generation.structureGen.GenerateVines;
 
-import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -31,7 +31,7 @@ public class GenerationJungle extends WorldGenerator {
 			success = true;
 			break;
 		case 3:
-			world.setBlock(x, y, z, Block.web.blockID);
+			world.func_147465_d(x, y, z, Blocks.web, 0, 2);
 			break;
 		case 4:
 			GenerateSkulls.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));

@@ -32,17 +32,17 @@ public class EventManager implements IWorldGenerator
     /**
      * Adds an Ore Spawn to Minecraft. Simply register all Ores to spawn with this method in your Generation method in your IWorldGeneration extending Class
      *
-     * @param The Block to spawn
-     * @param The World to spawn in
-     * @param A Random object for retrieving random positions within the world to spawn the Block
-     * @param An int for passing the X-Coordinate for the Generation method
-     * @param An int for passing the Z-Coordinate for the Generation method
-     * @param An int for setting the maximum X-Coordinate values for spawning on the X-Axis on a Per-Chunk basis
-     * @param An int for setting the maximum Z-Coordinate values for spawning on the Z-Axis on a Per-Chunk basis
-     * @param An int for setting the maximum size of a vein
-     * @param An int for the Number of chances available for the Block to spawn per-chunk
-     * @param An int for the minimum Y-Coordinate height at which this block may spawn
-     * @param An int for the maximum Y-Coordinate height at which this block may spawn
+     * @param block to spawn
+     * @param world to spawn in
+     * @param random object for retrieving random positions within the world to spawn the Block
+     * @param blockXPos the X-Coordinate for the Generation method
+     * @param blockZPos the Z-Coordinate for the Generation method
+     * @param maxX maximum X-Coordinate values for spawning on the X-Axis on a Per-Chunk basis
+     * @param maxZ maximum Z-Coordinate values for spawning on the Z-Axis on a Per-Chunk basis
+     * @param maxVeinSize maximum size of a vein
+     * @param chancesToSpawn Number of chances available for the Block to spawn per-chunk
+     * @param minY minimum Y-Coordinate height at which this block may spawn
+     * @param maxY maximum Y-Coordinate height at which this block may spawn
      **/
     public void addOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY)
     {
@@ -53,7 +53,7 @@ public class EventManager implements IWorldGenerator
 	      assert maxZ > 0 && maxZ <= 16: "addOreSpawn: The Maximum Z must be greater than 0 and less than 16";
 	     
 	      int diffBtwnMinMaxY = maxY - minY;
-	      WorldGenMinable mine = new WorldGenMinable(block.blockID, maxVeinSize);
+	      WorldGenMinable mine = new WorldGenMinable(block, maxVeinSize);
 	      for(int x = 0; x < chancesToSpawn; x++)
 	      {
 	    	  int posX = blockXPos + random.nextInt(maxX);

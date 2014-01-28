@@ -2,7 +2,7 @@ package wildCaves.generation.biomeGen;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import wildCaves.Utils;
@@ -26,7 +26,7 @@ public class GenerationFrozen extends WorldGenerator {
 			success = true;
 			break;
 		case 2:
-			world.setBlock(x, y, z, Block.web.blockID);
+			world.func_147465_d(x, y, z, Blocks.web, 0, 2);
 			success = true;
 			break;
 		case 3:

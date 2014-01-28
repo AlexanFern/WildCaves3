@@ -5,14 +5,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 
 public class MultiItemBlock extends ItemBlock {
 	private final String[] subNames;
 	private final Block block;
 
-	public MultiItemBlock(int par1, Block block, String... names) {
-		super(par1);
+	public MultiItemBlock(Block block, String... names) {
+		super(block);
 		this.block = block;
 		this.subNames = names;
 		setHasSubtypes(true);
@@ -20,10 +20,10 @@ public class MultiItemBlock extends ItemBlock {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Icon getIconFromDamage(int damage) {
+	public IIcon getIconFromDamage(int damage) {
 		if (damage > getNumOfStructures())
 			damage = getNumOfStructures() - 1;
-		return block.getIcon(0, damage);
+		return block.func_149691_a(0, damage);
 	}
 
 	@Override

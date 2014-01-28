@@ -2,15 +2,12 @@ package wildCaves.generation.biomeGen;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import wildCaves.Utils;
 import wildCaves.WorldGenWildCaves;
-import wildCaves.generation.structureGen.GenerateGlowcaps;
-import wildCaves.generation.structureGen.GenerateSkulls;
-import wildCaves.generation.structureGen.GenerateStoneStalactite;
-import wildCaves.generation.structureGen.GenerateVines;
+import wildCaves.generation.structureGen.*;
 
 public class GenerationHumid extends WorldGenerator {
 	public GenerationHumid() {
@@ -26,7 +23,7 @@ public class GenerationHumid extends WorldGenerator {
 			success = true;
 			break;
 		case 2:
-			world.setBlock(x, y + 1, z, Block.waterMoving.blockID);
+			GenerateFloodedCaves.generate(world, random, x, y, z);
 			success = true;
 			break;
 		case 3:
@@ -34,7 +31,7 @@ public class GenerationHumid extends WorldGenerator {
 			success = true;
 			break;
 		case 4:
-			world.setBlock(x, y - Utils.getNumEmptyBlocks(world, x, y, z) + 1, z, Block.web.blockID);
+			world.func_147465_d(x, y - Utils.getNumEmptyBlocks(world, x, y, z) + 1, z, Blocks.web, 0, 2);
 			break;
 		case 5:
 			GenerateSkulls.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));

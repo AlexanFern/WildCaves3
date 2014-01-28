@@ -2,22 +2,23 @@ package wildCaves;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 
 public class BlockSandstoneStalactite extends BlockStalactite {
-	public BlockSandstoneStalactite(int id) {
-		super(id, ItemSandstoneStalactite.sandStalacs.length);
-		setUnlocalizedName("sandstoneStalactiteBlock");
-		setTextureName(":sandstoneStructure");
+	public BlockSandstoneStalactite() {
+		super(ItemSandstoneStalactite.sandStalacs.length);
+        func_149663_c("sandstoneStalactiteBlock");
+        func_149658_d(":sandstoneStructure");
 	}
 
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3) {
-		return Block.sandStone.blockID;
+	public Item func_149650_a(int par1, Random par2Random, int par3) {
+		return Item.func_150898_a(Blocks.sandstone);
 	}
 
 	@Override
-	public int quantityDropped(Random rand) {
+	public int func_149745_a(Random rand) {
 		return rand.nextInt(3) - 1;
 	}
 }
