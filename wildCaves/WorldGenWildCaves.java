@@ -62,7 +62,7 @@ public class WorldGenWildCaves implements IWorldGenerator {
 				Zcoord = blockZ + random.nextInt(16);
                 Ycoord = Math.min(world.getHeightValue(Xcoord, Zcoord)-1, random.nextInt(maxGenHeight));
 				// search for the first available spot
-				while (Ycoord > 10 && (!blockWhiteList.contains(world.func_147439_a(Xcoord, Ycoord + 1, Zcoord)) || !world.func_147437_c(Xcoord, Ycoord, Zcoord))) {
+				while (Ycoord > 10 && (!blockWhiteList.contains(world.getBlock(Xcoord, Ycoord + 1, Zcoord)) || !world.isAirBlock(Xcoord, Ycoord, Zcoord))) {
 					Ycoord--;
 				}
 				// found a spot

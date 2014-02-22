@@ -31,7 +31,7 @@ public class GenerationHumid extends WorldGenerator {
 			success = true;
 			break;
 		case 4:
-			world.func_147465_d(x, y - Utils.getNumEmptyBlocks(world, x, y, z) + 1, z, Blocks.web, 0, 2);
+			world.setBlock(x, y - Utils.getNumEmptyBlocks(world, x, y, z) + 1, z, Blocks.web, 0, 2);
 			break;
 		case 5:
 			GenerateSkulls.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));

@@ -23,7 +23,7 @@ public class MultiItemBlock extends ItemBlock {
 	public IIcon getIconFromDamage(int damage) {
 		if (damage > getNumOfStructures())
 			damage = getNumOfStructures() - 1;
-		return block.func_149691_a(0, damage);
+		return block.getIcon(0, damage);
 	}
 
 	@Override

@@ -21,9 +21,9 @@ public class Utils {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.8f, 0.2f, 0, 0, 0, 0) == 1) {
-						aux = world.func_147439_a(newX + j, newY - i, newZ + k);
+						aux = world.getBlock(newX + j, newY - i, newZ + k);
 						if (aux == Blocks.stone || aux == Blocks.dirt || aux == Blocks.gravel || aux == Blocks.grass)// stone -> Ice
-							world.func_147449_b(newX + j, newY - i, newZ + k, Blocks.ice);
+							world.setBlock(newX + j, newY - i, newZ + k, Blocks.ice);
 					}
 				}
 			}
@@ -44,11 +44,11 @@ public class Utils {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.7f, 0.3f, 0, 0, 0, 0) == 1) {
-						aux = world.func_147439_a(newX + j, newY - i, newZ + k);
+						aux = world.getBlock(newX + j, newY - i, newZ + k);
 						if (aux == Blocks.stone)// stone -> sandstone
-							world.func_147465_d(newX + j, newY - i, newZ + k, Blocks.sandstone, 0, 2);
+							world.setBlock(newX + j, newY - i, newZ + k, Blocks.sandstone, 0, 2);
 						else if (aux == Blocks.dirt || aux == Blocks.gravel) // dirt/gravel -> sand
-							world.func_147465_d(newX + j, newY - i, newZ + k, Blocks.sand, 0, 2);
+							world.setBlock(newX + j, newY - i, newZ + k, Blocks.sand, 0, 2);
 					}
 				}
 			}
@@ -58,7 +58,7 @@ public class Utils {
 	// gets the number of empty blocks between the current one and the closest one bellow
 	public static int getNumEmptyBlocks(World world, int x, int y, int z) {
 		int dist = 0;
-		while (world.func_147437_c(x, y, z) && !world.func_147445_c(x, y, z, false) && y > 5) {
+		while (world.isAirBlock(x, y, z) && !world.isBlockNormalCubeDefault(x, y, z, false) && y > 5) {
 			y--;
 			dist++;
 		}

@@ -23,8 +23,8 @@ public class GenerateFloodedCaves
 			y -= (Utils.getNumEmptyBlocks(world, x, y, z)/3)*2;
             for(int i=x-3;i<x+4;i++){
                 for(int k=z-3; k<z+4;k++){
-                    if(world.func_147437_c(i, y, k)){
-                        world.func_147465_d(x, y, k, Blocks.flowing_water, 0, 2);
+                    if(world.isAirBlock(i, y, k)){
+                        world.setBlock(i, y, k, Blocks.flowing_water, 0, 2);
                     }
                 }
 			}

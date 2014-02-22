@@ -12,8 +12,8 @@ public class GenerateSkulls {
 		if (numEmptyBlocks > 0) {
 			int auxY = y - numEmptyBlocks + 1;
 			if (auxY > 0) {
-				world.func_147465_d(x, auxY, z, Blocks.skull, 1, 2);
-				TileEntity skullTE = world.func_147438_o(x, auxY, z);
+				world.setBlock(x, auxY, z, Blocks.skull, 1, 2);
+				TileEntity skullTE = world.getTileEntity(x, auxY, z);
 				if (skullTE instanceof TileEntitySkull) {
 					((TileEntitySkull) skullTE).func_145903_a(random.nextInt(360));//set rotation
 				}

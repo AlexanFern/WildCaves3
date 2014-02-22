@@ -26,7 +26,7 @@ public class GenerationFrozen extends WorldGenerator {
 			success = true;
 			break;
 		case 2:
-			world.func_147465_d(x, y, z, Blocks.web, 0, 2);
+			world.setBlock(x, y, z, Blocks.web, 0, 2);
 			success = true;
 			break;
 		case 3:

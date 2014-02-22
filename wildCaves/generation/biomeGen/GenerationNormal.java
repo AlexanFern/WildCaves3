@@ -26,7 +26,7 @@ public class GenerationNormal extends WorldGenerator {
 			success = true;
 			break;
 		case 2:
-			world.func_147465_d(x, y, z, Blocks.web, 0, 2);
+			world.setBlock(x, y, z, Blocks.web, 0, 2);
 			break;
 		case 3:
 			GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);

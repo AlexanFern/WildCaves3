@@ -40,7 +40,7 @@ public class WildCaves {
         GameRegistry.registerBlock(blockSandStalactite, ItemSandstoneStalactite.class, "SandstoneSalactite");
         blockDecorations = new BlockDecorations();
         GameRegistry.registerBlock(blockDecorations, ItemDecoration.class, "Decorations");
-        blockFlora = new BlockFlora().func_149715_a(floraLightLevel / 15);
+        blockFlora = new BlockFlora().setLightLevel(floraLightLevel / 15);
         GameRegistry.registerBlock(blockFlora, ItemFlora.class, "Flora");
         blockFossils = new BlockFossils();
         GameRegistry.registerBlock(blockFossils, ItemFossil.class, "FossilBlock");

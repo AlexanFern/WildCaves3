@@ -26,14 +26,14 @@ public abstract class BlockStalactite extends Block {
 	private IIcon[] iconArray;
 
 	public BlockStalactite(int num) {
-		super(Material.field_151576_e);
+		super(Material.rock);
 		this.numOfStructures = num;
-		this.func_149711_c(0.8F);
-		this.func_149647_a(WildCaves.tabWildCaves);
+		this.setHardness(0.8F);
+		this.setCreativeTab(WildCaves.tabWildCaves);
 	}
 
 	@Override
-	public boolean func_149718_j(World world, int x, int y, int z) {
+	public boolean canBlockStay(World world, int x, int y, int z) {
 		boolean result = false;
 		int metadata = world.getBlockMetadata(x, y, z);
 		if ((metadata != 0 && metadata < 4) || metadata == 7 || metadata == 11)
@@ -59,115 +59,118 @@ public abstract class BlockStalactite extends Block {
 		else
 			increment = -1;
 		i = increment;
-		while (world.func_147439_a(x, y + i, z) == WildCaves.blockStoneStalactite || world.func_147439_a(x, y + i, z) == WildCaves.blockSandStalactite)
+		while (world.getBlock(x, y + i, z) == WildCaves.blockStoneStalactite || world.getBlock(x, y + i, z) == WildCaves.blockSandStalactite)
 			i = i + increment;
-		return world.func_147439_a(x, y + i, z).isNormalCube(world, x, y+i, z);
+		return world.getBlock(x, y + i, z).isNormalCube(world, x, y+i, z);
 	}
 
 	@Override
-	public AxisAlignedBB func_149668_a(World par1World, int par2, int par3, int par4) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		if (WildCaves.solidStalactites)
-			return super.func_149668_a(par1World, par2, par3, par4);
+			return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 		else
 			return null;
 	}
 
 	@Override
-	public int func_149643_k(World world, int x, int y, int z) {
+	public int getDamageValue(World world, int x, int y, int z) {
 		return world.getBlockMetadata(x, y, z);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon func_149691_a(int side, int metadata) {
+	public IIcon getIcon(int side, int metadata) {
 		if (metadata >= numOfStructures)
 			metadata = numOfStructures - 1;
 		return this.iconArray[metadata];
 	}
 
 	@Override
-	public int func_149645_b() {
+	public int getRenderType() {
 		return 1;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void func_149666_a(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
 		for (int i = 0; i < numOfStructures; ++i) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
 
 	@Override
-	public boolean func_149686_d() {
+	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
 	@Override
-	public void func_149689_a(World world, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
-		this.func_149674_a(world, x, y, z, null);
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
+		this.updateTick(world, x, y, z, null);
 	}
 
     @Override
-    public void func_149674_a(World world, int x, int y, int z, Random random) {
-        if (!this.func_149718_j(world, x, y, z)){
-            this.func_149697_b(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-            world.func_147468_f(x, y, z);
+    public void updateTick(World world, int x, int y, int z, Random random) {
+        if (!this.canBlockStay(world, x, y, z)){
+            this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+            world.setBlockToAir(x, y, z);
         }
     }
 
 	@Override
-	public void func_149670_a(World world, int x, int y, int z, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+        if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode && ((EntityPlayer) entity).capabilities.isFlying){
+            return;
+        }
 		entity.motionX *= 0.7D;
 		entity.motionZ *= 0.7D;
 	}
 
 	@Override
-	public void func_149746_a(World world, int par2, int par3, int par4, Entity entity, float par6) {
+	public void onFallenUpon(World world, int par2, int par3, int par4, Entity entity, float par6) {
 		if (WildCaves.damageWhenFallenOn && entity.isEntityAlive()) {
 			entity.attackEntityFrom(DamageSource.generic, 5);
 		}
 	}
 
 	@Override
-	public void func_149695_a(World world, int x, int y, int z, Block blockID) {
-		if (!world.isRemote && !this.func_149718_j(world, x, y, z)) {
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block blockID) {
+		if (!world.isRemote && !this.canBlockStay(world, x, y, z)) {
 			world.func_147480_a(x, y, z, true);
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void func_149651_a(IIconRegister iconRegister) {
+	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconArray = new IIcon[numOfStructures];
 		for (int i = 0; i < this.iconArray.length; ++i) {
-			this.iconArray[i] = iconRegister.registerIcon(WildCaves.modid + func_149641_N() + i);
+			this.iconArray[i] = iconRegister.registerIcon(WildCaves.modid + getTextureName() + i);
 		}
 	}
 
 	@Override
-	public boolean func_149662_c() {
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
 	@Override
-	public void func_149719_a(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
+	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
 		int metadata = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 		switch (metadata) {
 		case 1:
-			this.func_149676_a(0.25F, 0.2F, 0.25F, 0.75F, 1F, 0.75F);
+			this.setBlockBounds(0.25F, 0.2F, 0.25F, 0.75F, 1F, 0.75F);
 			break;
 		case 2:
-			this.func_149676_a(0.25F, 0.5F, 0.25F, 0.75F, 1F, 0.75F);
+			this.setBlockBounds(0.25F, 0.5F, 0.25F, 0.75F, 1F, 0.75F);
 			break;
 		case 9:
-			this.func_149676_a(0.25F, 0.0F, 0.25F, 0.75F, 0.8F, 0.75F);
+			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.8F, 0.75F);
 			break;
 		case 10:
-			this.func_149676_a(0.25F, 0.0F, 0.25F, 0.75F, 0.4F, 0.75F);
+			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.4F, 0.75F);
 			break;
 		default:
-			this.func_149676_a(0.25F, 0.0F, 0.25F, 0.75F, 1F, 0.75F);
+			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 1F, 0.75F);
 			break;
 		}
 	}

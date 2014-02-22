@@ -23,11 +23,11 @@ public class BlockFossils extends Block {
 	private int numOfStructures = ItemFossil.fossils.length;
 
 	public BlockFossils() {
-		super(Material.field_151576_e);
-		this.func_149711_c(1F);
-		this.func_149647_a(WildCaves.tabWildCaves);
-        func_149663_c("fossilsBlock");
-		this.func_149672_a(field_149780_i);
+		super(Material.rock);
+		this.setHardness(1F);
+		this.setCreativeTab(WildCaves.tabWildCaves);
+        setBlockName("fossilsBlock");
+		this.setStepSound(soundTypePiston);
 	}
 
 	@Override
@@ -36,13 +36,13 @@ public class BlockFossils extends Block {
 	}
 
 	@Override
-	public int func_149643_k(World world, int x, int y, int z) {
+	public int getDamageValue(World world, int x, int y, int z) {
 		return world.getBlockMetadata(x, y, z);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon func_149691_a(int side, int metadata) {
+	public IIcon getIcon(int side, int metadata) {
 		if (metadata >= numOfStructures)
 			metadata = numOfStructures - 1;
 		return this.iconArray[metadata];
@@ -50,14 +50,14 @@ public class BlockFossils extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void func_149666_a(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
 		for (int i = 0; i < numOfStructures; ++i) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
 
 	@Override
-	public Item func_149650_a(int metadata, Random random, int par3) {
+	public Item getItemDropped(int metadata, Random random, int par3) {
 		int choise = Utils.weightedChoise(0.5f, 0.15f, 0.05f, 0.5f, 0, 0);
 		Item result = null;
 		switch (choise) {
@@ -71,14 +71,14 @@ public class BlockFossils extends Block {
 			result = Items.skull;
 			break;
 		case 4:
-			result = Item.func_150898_a(Blocks.cobblestone);
+			result = Item.getItemFromBlock(Blocks.cobblestone);
 		}
 		return result;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void func_149651_a(IIconRegister iconRegister) {
+	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconArray = new IIcon[numOfStructures];
 		for (int i = 0; i < this.iconArray.length; ++i) {
 			this.iconArray[i] = iconRegister.registerIcon(WildCaves.modid + ":fossils" + i);
