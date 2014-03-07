@@ -7,7 +7,7 @@
   "version" : $version,
   "url": "http://www.minecraftforum.net/topic/1554854-146forge-wildcaves-3-v032/",
   "updateUrl": "",
-  "authors": [
+  "authorList": [
     "Alexmania"
   ],
   "logoFile": "WildCaves3.png",
