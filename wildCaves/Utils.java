@@ -58,7 +58,7 @@ public class Utils {
 	// gets the number of empty blocks between the current one and the closest one bellow
 	public static int getNumEmptyBlocks(World world, int x, int y, int z) {
 		int dist = 0;
-		while (world.isAirBlock(x, y, z) && !world.isBlockNormalCubeDefault(x, y, z, false) && y > 5) {
+		while (y > 5 && !world.isBlockNormalCubeDefault(x, y, z, true) && world.isAirBlock(x, y, z)) {
 			y--;
 			dist++;
 		}

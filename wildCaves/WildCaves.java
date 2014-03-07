@@ -14,14 +14,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = WildCaves.modid, name = "Wild Caves 3", version = "0.4.3.5")
+@Mod(modid = WildCaves.modid, name = "Wild Caves 3", useMetadata = true)
 public class WildCaves {
 	public static final String modid = "wildcaves3";
 	public static Block blockFlora, blockDecorations, blockFossils;
-	public static BlockStoneStalactite blockStoneStalactite;
-	public static BlockSandstoneStalactite blockSandStalactite;
+	public static Block blockStoneStalactite, blockSandStalactite;
 	public static int floraLightLevel;
-	public static int timesPerChunck;
 	public static int chanceForNodeToSpawn;
 	public static boolean solidStalactites, damageWhenFallenOn;
 	public static Configuration config;
@@ -34,16 +32,11 @@ public class WildCaves {
     };
 
 	public void initBlocks() {
-        blockStoneStalactite = new BlockStoneStalactite();
-        GameRegistry.registerBlock(blockStoneStalactite, ItemStoneStalactite.class, "StoneStalactite");
-        blockSandStalactite = new BlockSandstoneStalactite();
-        GameRegistry.registerBlock(blockSandStalactite, ItemSandstoneStalactite.class, "SandstoneSalactite");
-        blockDecorations = new BlockDecorations();
-        GameRegistry.registerBlock(blockDecorations, ItemDecoration.class, "Decorations");
-        blockFlora = new BlockFlora().setLightLevel(floraLightLevel / 15);
-        GameRegistry.registerBlock(blockFlora, ItemFlora.class, "Flora");
-        blockFossils = new BlockFossils();
-        GameRegistry.registerBlock(blockFossils, ItemFossil.class, "FossilBlock");
+        blockStoneStalactite = GameRegistry.registerBlock(new BlockStoneStalactite(), ItemStoneStalactite.class, "StoneStalactite");
+        blockSandStalactite = GameRegistry.registerBlock(new BlockSandstoneStalactite(), ItemSandstoneStalactite.class, "SandstoneSalactite");
+        blockDecorations = GameRegistry.registerBlock(new BlockDecorations(), ItemDecoration.class, "Decorations");
+        blockFlora = GameRegistry.registerBlock(new BlockFlora().setLightLevel(floraLightLevel / 15), ItemFlora.class, "Flora");
+        blockFossils = GameRegistry.registerBlock(new BlockFossils(), ItemFossil.class, "FossilBlock");
 	}
 
 	@EventHandler
