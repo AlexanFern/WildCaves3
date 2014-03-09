@@ -132,4 +132,10 @@ public class BlockFlora extends BlockBush implements IShearable {
 	protected boolean canPlaceBlockOn(Block par1) {
 		return true;
 	}
+
+    @Override
+    public Block setLightLevel(float val){
+        this.lightValue = (int)val;
+        return this;
+    }
 }
