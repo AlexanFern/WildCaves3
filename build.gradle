@@ -22,7 +22,7 @@ minecraft {
 version = "0.4.3.6(1.7.2)"
 archivesBaseName = project.projectDir.name
 sourceSets.main.java{srcDirs project.projectDir.getPath() include("wildCaves/**")}
-sourceSets.main.resources{srcDirs project.projectDir.getPath() include("assets/**" , "*.png", "*.info", "*.md")}
+sourceSets.main.resources{srcDirs project.projectDir.getPath() include("assets/**" , "WildCaves3.png", "*.info", "*.md")}
 processResources {
     // replace stuff in mcmod.info, nothing else
     from(project.sourceSets.main.resources.srcDirs) {

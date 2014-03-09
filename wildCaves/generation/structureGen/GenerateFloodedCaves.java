@@ -13,8 +13,8 @@ public class GenerateFloodedCaves
 	public static void generate(World world, Random random, int x, int y, int z) 
 	{
         int blocks = 0;
-        int di = 16* MathHelper.truncateDoubleToInt(x / 16) + random.nextInt(10);
-        int dk = 16* MathHelper.truncateDoubleToInt(z / 16) + random.nextInt(10);
+        int di = 16* MathHelper.floor_double(x / 16) + random.nextInt(10);
+        int dk = 16* MathHelper.floor_double(z / 16) + random.nextInt(10);
 		for(int i=di;i<di+7;i++){
             for(int k=dk; k<dk+7;k++){
                 blocks+=Utils.getNumEmptyBlocks(world, i, y, k);
