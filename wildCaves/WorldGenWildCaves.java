@@ -6,6 +6,7 @@ import java.util.Random;
 
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -87,17 +88,18 @@ public class WorldGenWildCaves implements IWorldGenerator {
 
 	private static void setConfig(Configuration config) {
         // --generation permissions------
-        boolean sandstoneStalactites = config.get("Permissions", "Generate Sandstone stalactites on arid biomes", true).getBoolean(true);
-        boolean flora = config.get("Permissions", "Generate flora on caves", true).getBoolean(true);
-        boolean stalactites = config.get("Permissions", "Generate stalactites on caves", true).getBoolean(true);
-        String[] list = config.get("Permissions", "Dimension Blacklist", "-1,1").getString().split(",");
+        String category = "Permissions";
+        boolean sandstoneStalactites = config.get(category, "Generate Sandstone stalactites on arid biomes", true).getBoolean(true);
+        boolean flora = config.get(category, "Generate flora on caves", true).getBoolean(true);
+        boolean stalactites = config.get(category, "Generate stalactites on caves", true).getBoolean(true);
+        String[] list = config.get(category, "Dimension Blacklist", "-1,1").getString().split(",");
         for (String txt : list) {
             try {
                 dimensionBlacklist.add(Integer.parseInt(txt.trim()));
             } catch (NumberFormatException n) {
             }
         }
-        list = config.get("Permissions", "Block white list", "stone,grass,dirt,cobblestone,gravel,gold_ore,iron_ore,coal_ore,lapis_ore,sandstone,diamond_ore,redstone_ore,lit_redstone_ore,ice,snow,clay,monster_egg,emerald_ore").getString().split(",");
+        list = config.get(category, "Block white list", "stone,grass,dirt,cobblestone,gravel,gold_ore,iron_ore,coal_ore,lapis_ore,sandstone,diamond_ore,redstone_ore,lit_redstone_ore,ice,snow,clay,monster_egg,emerald_ore").getString().split(",");
         Block block;
         for (String txt : list) {
             try {
@@ -109,20 +111,29 @@ public class WorldGenWildCaves implements IWorldGenerator {
             }
         }
         // --Biome specific ratios------
-        probabilityVinesJungle = (float) config.get("Biome specific", "Probability of vines on jungle caves", 0.5).getDouble(0.5);
-        probabilityIcicle = (float) config.get("Biome specific", "Probability of icicles on frozen caves", 0.6).getDouble(0.6);
-        probabilityWet = (float) config.get("Biome specific", "Probability of more water fountains on wet caves", 0.1).getDouble(0.1);
-        probabilityDry = (float) config.get("Biome specific", "Probability of less generation arid caves", 0.5).getDouble(0.5);
-        probabilityGlowcapsHumid = (float) config.get("Biome specific", "Probability of Glowing mushrooms on humid/jungle caves", 0.3).getDouble(0.3);
-        probabilityIceshrooms = (float) config.get("Biome specific", "Probability of Glowing Ice mushrooms on frozen caves", 0.3).getDouble(0.3);
-        probabilitySandStalactites = (float) config.get("Biome specific", "Probability of sandstone stalactites on arid caves", 0.5).getDouble(0.5);
+        category = "Biome specific";
+        probabilityVinesJungle = (float) config.get(category, "Probability of vines on jungle caves", 0.5).getDouble(0.5);
+        probabilityIcicle = (float) config.get(category, "Probability of icicles on frozen caves", 0.6).getDouble(0.6);
+        try{
+            block = GameData.blockRegistry.getObject(config.get(category, "Block to generate in frozen caves", "ice").getString().trim());
+            if(block!=null && block.getMaterial().getMaterialMapColor()== MapColor.iceColor){
+                Utils.frozen = block;
+            }
+        }catch (Exception n){
+        }
+        probabilityWet = (float) config.get(category, "Probability of more water fountains on wet caves", 0.1).getDouble(0.1);
+        probabilityDry = (float) config.get(category, "Probability of less generation arid caves", 0.5).getDouble(0.5);
+        probabilityGlowcapsHumid = (float) config.get(category, "Probability of Glowing mushrooms on humid/jungle caves", 0.3).getDouble(0.3);
+        probabilityIceshrooms = (float) config.get(category, "Probability of Glowing Ice mushrooms on frozen caves", 0.3).getDouble(0.3);
+        probabilitySandStalactites = (float) config.get(category, "Probability of sandstone stalactites on arid caves", 0.5).getDouble(0.5);
         // --General ratios------
-        probabilityVines = (float) config.get("Non biome specific", "Probability of vines on caves", 0.1).getDouble(0.1);
-        probabilityGlowcaps = (float) config.get("Non biome specific", "Probability of glowing mushrooms on caves", 0.1).getDouble(0.1);
-        probabilityStalactite = (float) config.get("Non biome specific", "Probability of Stalactites/stalagmites", 0.5).getDouble(0.5);
-        probabilitySpiderWeb = (float) config.get("Non biome specific", "Probability of spider webs", 0.15).getDouble(0.15);
-        maxGenHeightGlowcapNormal = config.get("Non biome specific", "Max height at which to generate glowcaps on normal biomes", 30).getInt();
-        probabilitySkulls = (float) config.get("Non biome specific", "Probability of skulls", 0.0001).getDouble(0.0001);
+        category = "Non biome specific";
+        probabilityVines = (float) config.get(category, "Probability of vines on caves", 0.1).getDouble(0.1);
+        probabilityGlowcaps = (float) config.get(category, "Probability of glowing mushrooms on caves", 0.1).getDouble(0.1);
+        probabilityStalactite = (float) config.get(category, "Probability of Stalactites/stalagmites", 0.5).getDouble(0.5);
+        probabilitySpiderWeb = (float) config.get(category, "Probability of spider webs", 0.15).getDouble(0.15);
+        maxGenHeightGlowcapNormal = config.get(category, "Max height at which to generate glowcaps on normal biomes", 30).getInt();
+        probabilitySkulls = (float) config.get(category, "Probability of skulls", 0.0001).getDouble(0.0001);
         if(!sandstoneStalactites){
             probabilitySandStalactites = 0;
         }
@@ -139,9 +150,10 @@ public class WorldGenWildCaves implements IWorldGenerator {
             probabilitySandStalactites = 0;
         }
         // --other------
-        timesPerChunck = config.get(Configuration.CATEGORY_GENERAL, "times to attempt generating per chunk", 40).getInt();
-        maxGenHeight = config.get(Configuration.CATEGORY_GENERAL, "Max height at which to generate", 80).getInt();
-        maxLength = config.get(Configuration.CATEGORY_GENERAL, "Max length of structure generation", 8).getInt();
+        category = Configuration.CATEGORY_GENERAL;
+        timesPerChunck = config.get(category, "times to attempt generating per chunk", 40).getInt();
+        maxGenHeight = config.get(category, "Max height at which to generate", 80).getInt();
+        maxLength = config.get(category, "Max length of structure generation", 8).getInt();
         if(config.hasChanged()){
             config.save();
         }

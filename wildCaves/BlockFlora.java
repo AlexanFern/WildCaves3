@@ -6,10 +6,10 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,7 +40,7 @@ public class BlockFlora extends BlockBush implements IShearable {
 		Block bellowId = world.getBlock(x, y - 1, z);
 		int metadataBellow = world.getBlockMetadata(x, y - 1, z);
 		boolean solidBellow = world.isBlockNormalCubeDefault(x, y - 1, z, false);
-		if (solidBellow || bellowId == Blocks.ice || (bellowId == this && metadataBellow == 4)) {
+		if (solidBellow || bellowId.getMaterial().getMaterialMapColor() == MapColor.iceColor || (bellowId == this && metadataBellow == 4)) {
 			result = true;
 		}
 		return result;

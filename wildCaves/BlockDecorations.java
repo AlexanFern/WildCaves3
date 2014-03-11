@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,7 +34,7 @@ public class BlockDecorations extends Block {
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		return world.getBlock(x, y + 1, z).isNormalCube(world, x, y, z) || world.getBlock(x, y + 1, z) == Blocks.ice;
+		return world.getBlock(x, y + 1, z).isNormalCube(world, x, y, z) || world.getBlock(x, y + 1, z).getMaterial().getMaterialMapColor() == MapColor.iceColor;
 	}
 
 	@Override

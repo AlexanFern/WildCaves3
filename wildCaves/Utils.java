@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class Utils {
+    public static Block frozen = Blocks.ice;
 	// transforms an area into snow and ice
 	public static void convertToFrozenType(World world, Random random, int x, int y, int z) {
 		int height = random.nextInt(5) + 3;
@@ -23,7 +24,7 @@ public class Utils {
 					if (weightedChoise(0.8f, 0.2f, 0, 0, 0, 0) == 1) {
 						aux = world.getBlock(newX + j, newY - i, newZ + k);
 						if (aux == Blocks.stone || aux == Blocks.dirt || aux == Blocks.gravel || aux == Blocks.grass)// stone -> Ice
-							world.setBlock(newX + j, newY - i, newZ + k, Blocks.ice);
+							world.setBlock(newX + j, newY - i, newZ + k, frozen);
 					}
 				}
 			}
