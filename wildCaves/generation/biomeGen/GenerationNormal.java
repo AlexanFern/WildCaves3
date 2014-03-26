@@ -7,10 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import wildCaves.Utils;
 import wildCaves.WorldGenWildCaves;
-import wildCaves.generation.structureGen.GenerateGlowcaps;
-import wildCaves.generation.structureGen.GenerateSkulls;
-import wildCaves.generation.structureGen.GenerateStoneStalactite;
-import wildCaves.generation.structureGen.GenerateVines;
+import wildCaves.generation.structureGen.*;
 
 public class GenerationNormal extends WorldGenerator {
 	public GenerationNormal() {
@@ -18,29 +15,24 @@ public class GenerationNormal extends WorldGenerator {
 
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z) {
-		boolean success = false;
 		switch (Utils.weightedChoise(WorldGenWildCaves.probabilityVines, WorldGenWildCaves.probabilitySpiderWeb, WorldGenWildCaves.probabilityStalactite, WorldGenWildCaves.probabilityGlowcaps,
 				WorldGenWildCaves.probabilitySkulls, 0)) {
 		case 1:
-			GenerateVines.generate(world, random, x, y, z);
-			success = true;
-			break;
+			DecorationHelper.generateVines(world, random, x, y, z);
+            return true;
 		case 2:
 			world.setBlock(x, y, z, Blocks.web, 0, 2);
-			break;
+            return true;
 		case 3:
 			GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
-			success = true;
-			break;
+            return true;
 		case 4:
-			GenerateGlowcaps.generate(world, random, x, y - Utils.getNumEmptyBlocks(world, x, y, z) + 1, z);
-			success = true;
-			break;
+			DecorationHelper.generateGlowcaps(world, random, x, y, z);
+            return true;
 		case 5:
-			GenerateSkulls.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));
-			success = true;
-			break;
+			DecorationHelper.generateSkulls(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));
+            return true;
 		}
-		return success;
+        return false;
 	}
 }

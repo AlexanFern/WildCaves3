@@ -12,7 +12,7 @@ public class GenerateSandstoneStalactites {
 	public static void generate(World world, Random random, int x, int y, int z, int distance, int maxLength) {
 		boolean stalagmiteGenerated = false;
 		Block blockId = WildCaves.blockSandStalactite;
-		if (distance == 1) {
+		if (distance <= 1) {
             if (!world.isAirBlock(x, y + 1, z)) {
                 world.setBlock(x, y, z, blockId, 0, 2);
             }
