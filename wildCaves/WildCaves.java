@@ -2,6 +2,7 @@ package wildCaves;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,10 +15,21 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @Mod(modid = WildCaves.modid, name = "Wild Caves 3", useMetadata = true)
 public class WildCaves {
 	public static final String modid = "wildcaves3";
-	public static Block blockFlora, blockDecorations, blockFossils;
+    public static final ArrayList<String> stalacs = new ArrayList<String>(Arrays.asList("stalactite1", "stalactite2", "stalactite3", "stalactite4", "stalactiteConnection1", "stalactiteConnection2", "stalactiteConnection3",
+            "stalactiteConnection4", "stalactiteEnd", "stalacmiteEnd", "stalacmite1", "stalacmite2", "stalacmite3"));
+    public static final ArrayList<String> sandStalacs = new ArrayList<String>(Arrays.asList("sandstoneStalactite1", "sandstoneStalactite2", "sandstoneStalactite3", "sandstoneStalactite4", "sandstoneStalactiteConnection1",
+            "sandstoneStalactiteConnection2", "sandstoneStalactiteConnection3", "sandstoneStalactiteConnection4", "sandstoneStalactiteEnd", "sandstoneStalacmiteEnd", "sandstoneStalacmite1",
+            "sandstoneStalacmite2", "sandstoneStalacmite3"));
+    public static final ArrayList<String> icicles = new ArrayList<String>(Arrays.asList("icicle1", "icicle2", "icicle3"));
+    public static final ArrayList<String> caps = new ArrayList<String>(Arrays.asList("glowcap1", "glowcap2", "glowcap3", "gloweed1", "glowcap4top", "glowcap4bottom", "bluecap1", "bluecap2", "bluecap3", "bluecap4"));
+	public static final ArrayList<String> fossils = new ArrayList<String>(Arrays.asList("fossil1"));
+    public static Block blockFlora, blockDecorations, blockFossils;
 	public static Block blockStoneStalactite, blockSandStalactite;
 	public static int floraLightLevel;
 	public static int chanceForNodeToSpawn;
@@ -32,11 +44,12 @@ public class WildCaves {
     };
 
 	public void initBlocks() {
-        blockStoneStalactite = GameRegistry.registerBlock(new BlockStoneStalactite(), ItemStoneStalactite.class, "StoneStalactite");
-        blockSandStalactite = GameRegistry.registerBlock(new BlockSandstoneStalactite(), ItemSandstoneStalactite.class, "SandstoneSalactite");
-        blockDecorations = GameRegistry.registerBlock(new BlockDecorations(), ItemDecoration.class, "Decorations");
-        blockFlora = GameRegistry.registerBlock(new BlockFlora().setLightLevel(floraLightLevel), ItemFlora.class, "Flora");
-        blockFossils = GameRegistry.registerBlock(new BlockFossils(), ItemFossil.class, "FossilBlock");
+        blockStoneStalactite = GameRegistry.registerBlock(new BlockStoneStalactite(stalacs.size()), ItemStalactite.class, "StoneStalactite", modid, stalacs);
+        blockSandStalactite = GameRegistry.registerBlock(new BlockStalactite(sandStalacs.size(), Item.getItemFromBlock(Blocks.sandstone)).
+                setBlockName("sandstoneStalactiteBlock").setBlockTextureName(":sandstoneStructure"), ItemStalactite.class, "SandstoneSalactite", modid, sandStalacs);
+        blockDecorations = GameRegistry.registerBlock(new BlockDecorations(icicles.size()), MultiItemBlock.class, "Decorations", modid, icicles);
+        blockFlora = GameRegistry.registerBlock(new BlockFlora(caps.size()).setLightLevel(floraLightLevel), MultiItemBlock.class, "Flora", modid, caps);
+        blockFossils = GameRegistry.registerBlock(new BlockFossils(fossils.size()), MultiItemBlock.class, "FossilBlock", modid, fossils);
 	}
 
 	@EventHandler

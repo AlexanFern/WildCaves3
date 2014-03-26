@@ -20,17 +20,29 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class BlockStalactite extends Block {
+public class BlockStalactite extends Block {
 	private final int numOfStructures;
+    private final Item droppedItem;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
 
-	public BlockStalactite(int num) {
+	public BlockStalactite(int num, Item drop) {
 		super(Material.rock);
 		this.numOfStructures = num;
+        this.droppedItem = drop;
 		this.setHardness(0.8F);
 		this.setCreativeTab(WildCaves.tabWildCaves);
 	}
+
+    @Override
+    public Item getItemDropped(int metadata, Random random, int par3) {
+        return droppedItem;
+    }
+
+    @Override
+    public int quantityDropped(Random rand) {
+        return rand.nextInt(3) - 1;
+    }
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {

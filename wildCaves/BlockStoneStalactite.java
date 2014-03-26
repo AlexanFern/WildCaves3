@@ -9,20 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class BlockStoneStalactite extends BlockStalactite {
-	public BlockStoneStalactite() {
-		super(ItemStoneStalactite.stalacs.length);
+	public BlockStoneStalactite(int number) {
+		super(number, Item.getItemFromBlock(Blocks.cobblestone));
         setBlockName("stoneStalactiteBlock");
         setBlockTextureName(":stoneStructure");
-	}
-
-	@Override
-	public Item getItemDropped(int metadata, Random random, int par3) {
-		return Item.getItemFromBlock(Blocks.cobblestone);
-	}
-
-	@Override
-	public int quantityDropped(Random rand) {
-		return rand.nextInt(3) - 1;
 	}
 
 	@Override

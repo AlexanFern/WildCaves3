@@ -20,10 +20,11 @@ import net.minecraft.world.World;
 public class BlockFossils extends Block {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-	private int numOfStructures = ItemFossil.fossils.length;
+	private final int numOfStructures;
 
-	public BlockFossils() {
+	public BlockFossils(int number) {
 		super(Material.rock);
+        this.numOfStructures = number;
 		this.setHardness(1F);
 		this.setCreativeTab(WildCaves.tabWildCaves);
         setBlockName("fossilsBlock");

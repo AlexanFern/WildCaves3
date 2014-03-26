@@ -6,8 +6,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public abstract class ItemStalactite extends MultiItemBlock {
-	public ItemStalactite(Block block, String... names) {
+import java.util.ArrayList;
+
+public class ItemStalactite extends MultiItemBlock {
+	public ItemStalactite(Block block, ArrayList<String> names) {
 		super(block, names);
 	}
 

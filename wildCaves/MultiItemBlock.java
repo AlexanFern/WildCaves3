@@ -7,11 +7,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
+import java.util.ArrayList;
+
 public class MultiItemBlock extends ItemBlock {
-	private final String[] subNames;
+	private final ArrayList<String> subNames;
 	private final Block block;
 
-	public MultiItemBlock(Block block, String... names) {
+	public MultiItemBlock(Block block, ArrayList<String> names) {
 		super(block);
 		this.block = block;
 		this.subNames = names;
@@ -34,11 +36,11 @@ public class MultiItemBlock extends ItemBlock {
 	}
 
 	public int getNumOfStructures() {
-		return subNames.length;
+		return subNames.size();
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return subNames[itemstack.getItemDamage()];
+		return subNames.get(itemstack.getItemDamage());
 	}
 }

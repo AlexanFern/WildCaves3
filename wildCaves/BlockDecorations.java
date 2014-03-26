@@ -22,10 +22,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockDecorations extends Block {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-	private static final int numOfStructures = ItemDecoration.icicles.length;
+	private final int numOfStructures;
 
-	public BlockDecorations() {
+	public BlockDecorations(int number) {
 		super(Material.rock);
+        this.numOfStructures = number;
 		this.setCreativeTab(WildCaves.tabWildCaves);
         setResistance(0.6F);
         setBlockName("decorationsBlock");

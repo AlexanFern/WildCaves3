@@ -23,10 +23,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockFlora extends BlockBush implements IShearable {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-	private static final int numOfStructures = ItemFlora.caps.length;
+	private final int numOfStructures;
 
-	public BlockFlora() {
+	public BlockFlora(int number) {
 		super(Material.plants);
+        this.numOfStructures = number;
 		this.setCreativeTab(WildCaves.tabWildCaves);
 		this.setLightOpacity(0);
 		this.setStepSound(soundTypeGrass);
