@@ -7,21 +7,21 @@ import wildCaves.Utils;
 import wildCaves.WildCaves;
 
 import net.minecraft.world.World;
+import wildCaves.WorldGenWildCaves;
 
 public class GenerateStoneStalactite {
 	public static void generate(World world, Random random, int x, int y, int z, int distance, int maxLength) {
 		boolean stalagmiteGenerated = false;
 		Block blockId = WildCaves.blockStoneStalactite;
 		if (distance <= 1) {
-			//x,y,z,blockID, metadate, no update
+			//x,y,z,blockID, metadata, no update
             if (!world.isAirBlock(x, y + 1, z)) {
 			    world.setBlock(x, y, z, blockId, 0, 2);
             }
 		} else {
-			int k = 0; // counter
 			int j = 0; // blocks placed
-			int topY = Math.max(y, y - distance + 1);
-			int botY = Math.min(y, y - distance + 1);
+			int topY = y;
+			int botY = y - distance + 1;
 			int aux;
 			//stalactite base
 			if (!world.isAirBlock(x, topY + 1, z)) {
@@ -29,7 +29,7 @@ public class GenerateStoneStalactite {
 				j++;
 			}
 			// stalagmite base
-			if (!world.getBlock(x, botY, z).getMaterial().isLiquid() && !world.isAirBlock(x, botY - 1, z)) {
+			if (!world.getBlock(x, botY, z).getMaterial().isLiquid() && WorldGenWildCaves.isWhiteListed(world.getBlock(x, botY - 1, z))) {
 				aux = Utils.randomChoise(-1, 8, 9, 10);
 				if (aux != -1) {
 					world.setBlock(x, botY, z, blockId, aux, 2);
@@ -38,6 +38,7 @@ public class GenerateStoneStalactite {
 				}
 			}
 			if (j==2) {
+                int k = 0; // counter
                 int topMetadata = 0;
                 int bottomMetadata = 0;
 				while (k < maxLength && topY >= botY && j < distance && !world.getBlock(x, topY - 1, z).getMaterial().isLiquid()) {

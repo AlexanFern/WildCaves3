@@ -48,6 +48,10 @@ public class WorldGenWildCaves implements IWorldGenerator {
 		setConfig(config);
 	}
 
+    public static boolean isWhiteListed(Block block){
+        return blockWhiteList.contains(block);
+    }
+
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		int blockX = chunkX * 16;
