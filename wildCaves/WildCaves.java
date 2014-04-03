@@ -1,5 +1,7 @@
 package wildCaves;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.ModContainer;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -81,5 +83,15 @@ public class WildCaves {
         chanceForNodeToSpawn = config.get(Configuration.CATEGORY_GENERAL, "Chance for a fossil node to generate", 5).getInt(5);
         config.save();
         initBlocks();
+        if(event.getSourceFile().getName().endsWith(".jar") && event.getSide().isClient()){
+            try {
+                Class.forName("mods.mud.ModUpdateDetector").getDeclaredMethod("registerMod", ModContainer.class, String.class, String.class).invoke(null,
+                        FMLCommonHandler.instance().findContainerFor(this),
+                        "https://raw.github.com/GotoLink/WildCaves3/master/update.xml",
+                        "https://raw.github.com/GotoLink/WildCaves3/master/changelog.md"
+                );
+            } catch (Throwable e) {
+            }
+        }
 	}
 }

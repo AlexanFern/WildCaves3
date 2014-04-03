@@ -12,4 +12,5 @@
 !assets/*
 !wildCaves/*
 !WildCaves3.png
-
+!update.xml
+!changelog.md
