@@ -58,7 +58,7 @@ public class BlockStalactite extends Block {
 	}
 
 	@Override
-	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int metadata) {
+	protected boolean canSilkHarvest() {
 		return true;
 	}
 

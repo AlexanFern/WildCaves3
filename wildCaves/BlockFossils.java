@@ -32,11 +32,6 @@ public class BlockFossils extends Block {
 	}
 
 	@Override
-	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int metadata) {
-		return true;
-	}
-
-	@Override
 	public int getDamageValue(World world, int x, int y, int z) {
 		return world.getBlockMetadata(x, y, z);
 	}
