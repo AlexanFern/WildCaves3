@@ -37,8 +37,7 @@ public class WildCaves {
 	public static int chanceForNodeToSpawn;
 	public static boolean solidStalactites, damageWhenFallenOn;
 	public static Configuration config;
-	private EventManager eventmanager;
-	public static CreativeTabs tabWildCaves = new CreativeTabs("WildCaves3") {
+	public static final CreativeTabs tabWildCaves = new CreativeTabs("WildCaves3") {
         @Override
         public Item getTabIconItem() {
             return Items.ender_eye;
@@ -68,7 +67,7 @@ public class WildCaves {
 				}
 			}
 		}
-        eventmanager = new EventManager(chanceForNodeToSpawn);
+        EventManager eventmanager = new EventManager(chanceForNodeToSpawn);
         GameRegistry.registerWorldGenerator(eventmanager, 10);
 	}
 

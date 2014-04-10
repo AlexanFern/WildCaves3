@@ -39,8 +39,7 @@ public class GenerateStoneStalactite {
 			}
 			if (j==2) {
                 int k = 0; // counter
-                int topMetadata = 0;
-                int bottomMetadata = 0;
+                int topMetadata, bottomMetadata;
 				while (k < maxLength && topY >= botY && j < distance && !world.getBlock(x, topY - 1, z).getMaterial().isLiquid()) {
 					k++;
 					topMetadata = world.getBlockMetadata(x, topY, z);

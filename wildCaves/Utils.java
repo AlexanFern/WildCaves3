@@ -78,7 +78,7 @@ public class Utils {
 	public static int weightedChoise(float par1, float par2, float par3, float par4, float par5, float par6) {
 		float total = par1 + par2 + par3 + par4 + par5 + par6;
 		float val = new Random().nextFloat();
-		float previous = 0.0f;
+		float previous;
 		par1 = par1 / total;
 		par2 = par2 / total;
 		par3 = par3 / total;

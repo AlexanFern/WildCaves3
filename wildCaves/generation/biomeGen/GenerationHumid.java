@@ -15,7 +15,6 @@ public class GenerationHumid extends WorldGenerator {
 
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z) {
-		boolean success = false;
 		switch (Utils.weightedChoise(WorldGenWildCaves.probabilityGlowcapsHumid, WorldGenWildCaves.probabilityWet, WorldGenWildCaves.probabilityVines, WorldGenWildCaves.probabilitySpiderWeb,
 				WorldGenWildCaves.probabilitySkulls, WorldGenWildCaves.probabilityStalactite)) {
 		case 1:

@@ -18,7 +18,6 @@ public class BlockStoneStalactite extends BlockStalactite {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		int l;
 		if (world.getBlockMetadata(x, y, z) < 4) {
 			boolean isWatered = world.getBlock(x, y + 2, z).getMaterial().isLiquid();
 			int h = y;
