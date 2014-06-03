@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -34,7 +35,7 @@ public class WildCaves {
     public static Block blockFlora, blockDecorations, blockFossils;
 	public static Block blockStoneStalactite, blockSandStalactite;
 	public static int floraLightLevel;
-	public static int chanceForNodeToSpawn;
+	public static int chanceForNodeToSpawn, chestSkull;
 	public static boolean solidStalactites, damageWhenFallenOn;
 	public static Configuration config;
 	public static final CreativeTabs tabWildCaves = new CreativeTabs("WildCaves3") {
@@ -57,18 +58,20 @@ public class WildCaves {
 	public void load(FMLInitializationEvent event) {
 		WorldGenWildCaves gen = new WorldGenWildCaves(config);
 		if (gen.maxLength > 0) {
-			GameRegistry.registerWorldGenerator(gen, 5);
+            MinecraftForge.EVENT_BUS.register(gen);
 		}
-		//new itemstack(itemID, stackSize, damage)
-		for (String txt : new String[] { "DUNGEON_CHEST", "MINESHAFT_CORRIDOR", "STRONGHOLD_CORRIDOR" }) {
-			for (int i = 0; i < 5; i++) {
-				if (i != 1) {
-					ChestGenHooks.getInfo(txt).addItem(new WeightedRandomChestContent(new ItemStack(Items.skull, 1, i), 1, 2, 50));//skeleton//zombie//steve//creeper
-				}
-			}
-		}
-        EventManager eventmanager = new EventManager(chanceForNodeToSpawn);
-        GameRegistry.registerWorldGenerator(eventmanager, 10);
+        if(chestSkull > 0)
+            for (String txt : new String[] { ChestGenHooks.DUNGEON_CHEST, ChestGenHooks.MINESHAFT_CORRIDOR, ChestGenHooks.STRONGHOLD_CORRIDOR }) {
+                for (int i = 0; i < 5; i++) {
+                    if (i != 1) {
+                        ChestGenHooks.getInfo(txt).addItem(new WeightedRandomChestContent(new ItemStack(Items.skull, 1, i), 1, 2, chestSkull));//skeleton//zombie//steve//creeper
+                    }
+                }
+            }
+        if(chanceForNodeToSpawn > 0) {
+            EventManager eventmanager = new EventManager(chanceForNodeToSpawn);
+            MinecraftForge.EVENT_BUS.register(eventmanager);
+        }
 	}
 
 	@EventHandler
@@ -80,6 +83,7 @@ public class WildCaves {
         if (floraLightLevel > 15)
             floraLightLevel = 15;
         chanceForNodeToSpawn = config.get(Configuration.CATEGORY_GENERAL, "Chance for a fossil node to generate", 5).getInt(5);
+        chestSkull = config.get(Configuration.CATEGORY_GENERAL, "Chance for a skull to be added in chests", 50).getInt(50);
         config.save();
         initBlocks();
         if(event.getSourceFile().getName().endsWith(".jar") && event.getSide().isClient()){
