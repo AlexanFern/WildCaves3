@@ -1,6 +1,6 @@
 package wildCaves;
 
-import java.util.Random;
+import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 
 public class Utils {
     public static Block frozen = Blocks.ice;
+    public static List<Block> freezable = Arrays.asList(Blocks.stone, Blocks.dirt, Blocks.gravel, Blocks.grass);
 	// transforms an area into snow and ice
 	public static void convertToFrozenType(World world, Random random, int x, int y, int z) {
 		int height = random.nextInt(5) + 3;
@@ -23,14 +24,19 @@ public class Utils {
 					// basically transform or not
 					if (weightedChoise(0.8f, 0.2f, 0, 0, 0, 0) == 1) {
 						aux = world.getBlock(newX + j, newY - i, newZ + k);
-						if (aux == Blocks.stone || aux == Blocks.dirt || aux == Blocks.gravel || aux == Blocks.grass)// stone -> Ice
-							world.setBlock(newX + j, newY - i, newZ + k, frozen);
+						if (freezable.contains(aux))// stone -> Ice
+							world.setBlock(newX + j, newY - i, newZ + k, frozen, 0, 2);
 					}
 				}
 			}
 		}
 	}
-
+    private static IdentityHashMap<Block, Block> sandEquivalent = new IdentityHashMap<Block, Block>(8);
+    static{
+        sandEquivalent.put(Blocks.stone, Blocks.sandstone);
+        sandEquivalent.put(Blocks.dirt, Blocks.sand);
+        sandEquivalent.put(Blocks.gravel, Blocks.sand);
+    }
 	//transform an area in to sand and sandstone
 	public static void convertToSandType(World world, Random random, int x, int y, int z) {
 		int height = random.nextInt(5) + 3;
@@ -45,11 +51,9 @@ public class Utils {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.7f, 0.3f, 0, 0, 0, 0) == 1) {
-						aux = world.getBlock(newX + j, newY - i, newZ + k);
-						if (aux == Blocks.stone)// stone -> sandstone
-							world.setBlock(newX + j, newY - i, newZ + k, Blocks.sandstone, 0, 2);
-						else if (aux == Blocks.dirt || aux == Blocks.gravel) // dirt/gravel -> sand
-							world.setBlock(newX + j, newY - i, newZ + k, Blocks.sand, 0, 2);
+						aux = sandEquivalent.get(world.getBlock(newX + j, newY - i, newZ + k));
+						if (aux != null)// stone -> sandstone // dirt/gravel -> sand
+							world.setBlock(newX + j, newY - i, newZ + k, aux, 0, 2);
 					}
 				}
 			}
