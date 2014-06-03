@@ -4,22 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import wildCaves.generation.biomeGen.GenerationArid;
 import wildCaves.generation.biomeGen.GenerationFrozen;
 import wildCaves.generation.biomeGen.GenerationHumid;
 import wildCaves.generation.biomeGen.GenerationJungle;
 import wildCaves.generation.biomeGen.GenerationNormal;
-import cpw.mods.fml.common.IWorldGenerator;
 
-public class WorldGenWildCaves implements IWorldGenerator {
+public class WorldGenWildCaves {
 	public static float probabilityVinesJungle;
 	public static float probabilityVines;
 	public static float probabilityIcicle;
@@ -36,7 +37,7 @@ public class WorldGenWildCaves implements IWorldGenerator {
 	public static int maxLength;
 	private static int timesPerChunck = 50;
 	public static int maxGenHeightGlowcapNormal;
-	private static List<Integer> dimensionBlacklist = new ArrayList<Integer>();
+	public static List<Integer> dimensionBlacklist = new ArrayList<Integer>();
 	private static List<Block> blockWhiteList = new ArrayList<Block>();
 	private static final GenerationJungle jungleGen = new GenerationJungle();
 	private static final GenerationHumid wetGen = new GenerationHumid();
@@ -52,16 +53,18 @@ public class WorldGenWildCaves implements IWorldGenerator {
         return blockWhiteList.contains(block);
     }
 
-	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		int blockX = chunkX * 16;
-		int blockZ = chunkZ * 16;
-		int Xcoord;
-		int Ycoord;
-		int Zcoord;
-		//int dist;// distance
-		BiomeGenBase biome;
+    @SubscribeEvent
+    public void decorate(DecorateBiomeEvent.Post decorationEvent){
+        generate(decorationEvent.rand, decorationEvent.chunkX + 8, decorationEvent.chunkZ + 8, decorationEvent.world);
+    }
+
+	public void generate(Random random, int blockX, int blockZ, World world) {
 		if (!dimensionBlacklist.contains(world.provider.dimensionId)) {
+            int Xcoord;
+            int Ycoord;
+            int Zcoord;
+            //int dist;// distance
+            BiomeGenBase biome;
 			for (int i = 0; i < timesPerChunck; i++) {
 				Xcoord = blockX + random.nextInt(16);
 				Zcoord = blockZ + random.nextInt(16);
@@ -108,7 +111,7 @@ public class WorldGenWildCaves implements IWorldGenerator {
         for (String txt : list) {
             try {
                 block = GameData.blockRegistry.getObject(txt.trim());
-                if(block!=null){
+                if(block != null && block.getMaterial() != Material.air){
                     blockWhiteList.add(block);
                 }
             } catch (Exception n) {

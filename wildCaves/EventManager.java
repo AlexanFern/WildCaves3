@@ -2,12 +2,12 @@ package wildCaves;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import cpw.mods.fml.common.IWorldGenerator;
+import net.minecraftforge.event.terraingen.OreGenEvent;
 
-public class EventManager implements IWorldGenerator
+public class EventManager
 {
     private final WorldGenMinable[] mines = {new WorldGenMinable(WildCaves.blockFossils, 4), new WorldGenMinable(WildCaves.blockFossils, 5), new WorldGenMinable(WildCaves.blockFossils, 6)};
 	private final int chanceForNodeToSpawn;
@@ -16,12 +16,10 @@ public class EventManager implements IWorldGenerator
 		this.chanceForNodeToSpawn = chanceForNodeToSpawn;
 	}
 
-	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
-    {
-        if(world.provider.dimensionId==0)
-        {
-            this.addOreSpawn(mines[random.nextInt(3)], world, random, chunkX*16, chunkZ*16, 16, 16, chanceForNodeToSpawn, 1, 90);
+	@SubscribeEvent
+	public void generate(OreGenEvent.Post oreGen){
+        if (!WorldGenWildCaves.dimensionBlacklist.contains(oreGen.world.provider.dimensionId)) {
+            this.addOreSpawn(mines[oreGen.rand.nextInt(3)], oreGen.world, oreGen.rand, oreGen.worldX, oreGen.worldZ, 16, 16, chanceForNodeToSpawn, 1, 90);
         }
     }
 
@@ -40,11 +38,10 @@ public class EventManager implements IWorldGenerator
      **/
     public void addOreSpawn(WorldGenMinable mine, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int chancesToSpawn, int minY, int maxY)
     {
-        assert minY > 0: "addOreSpawn: The Minimum Y must be greater than 0";
+        assert minY > 0 && maxY > 0: "addOreSpawn: The Minimum Y and Maximum Y must be greater than 0";
         int diffBtwnMinMaxY = maxY - minY;
         if(maxY <= minY)
             diffBtwnMinMaxY = 1;
-        assert maxY < 256: "addOreSpawn: The Maximum Y must be less than 256 but greater than 0";
         assert maxX > 0 && maxX <= 16: "addOreSpawn: The Maximum X must be greater than 0 and less than 16";
         assert maxZ > 0 && maxZ <= 16: "addOreSpawn: The Maximum Z must be greater than 0 and less than 16";
         for(int x = 0; x < chancesToSpawn; x++)
