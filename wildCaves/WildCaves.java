@@ -70,7 +70,7 @@ public class WildCaves {
             }
         if(chanceForNodeToSpawn > 0) {
             EventManager eventmanager = new EventManager(chanceForNodeToSpawn);
-            MinecraftForge.EVENT_BUS.register(eventmanager);
+            MinecraftForge.ORE_GEN_BUS.register(eventmanager);
         }
 	}
 

@@ -20,7 +20,7 @@ public class GenerationArid extends WorldGenerator {
 		switch (Utils.weightedChoise(WorldGenWildCaves.probabilitySandStalactites, WorldGenWildCaves.probabilitySpiderWeb, WorldGenWildCaves.probabilityDry, WorldGenWildCaves.probabilitySkulls,
 				WorldGenWildCaves.probabilityStalactite, 0)) {
 		case 1:
-			GenerateSandstoneStalactites.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
+			new GenerateSandstoneStalactites().generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
             return true;
 		case 2:
 			world.setBlock(x, y, z, Blocks.web, 0, 2);
@@ -31,7 +31,7 @@ public class GenerationArid extends WorldGenerator {
 			DecorationHelper.generateSkulls(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));
             return true;
 		default:
-			GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
+			new GenerateStoneStalactite().generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
             return true;
 		}
 	}

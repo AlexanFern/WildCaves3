@@ -24,7 +24,7 @@ public class GenerationNormal extends WorldGenerator {
 			world.setBlock(x, y, z, Blocks.web, 0, 2);
             return true;
 		case 3:
-			GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
+            new GenerateStoneStalactite().generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
             return true;
 		case 4:
 			DecorationHelper.generateGlowcaps(world, random, x, y, z);

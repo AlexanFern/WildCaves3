@@ -33,7 +33,7 @@ public class GenerationHumid extends WorldGenerator {
 			DecorationHelper.generateSkulls(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));
             return true;
 		default:
-			GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
+            new GenerateStoneStalactite().generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), WorldGenWildCaves.maxLength);
             return true;
 		}
 	}

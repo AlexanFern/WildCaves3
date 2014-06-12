@@ -4,15 +4,20 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import wildCaves.Utils;
-import wildCaves.WildCaves;
 
 import net.minecraft.world.World;
+import wildCaves.WildCaves;
 import wildCaves.WorldGenWildCaves;
 
 public class GenerateStoneStalactite {
-	public static void generate(World world, Random random, int x, int y, int z, int distance, int maxLength) {
+    public final Block blockId;
+    public GenerateStoneStalactite(){this(WildCaves.blockStoneStalactite);}
+    public GenerateStoneStalactite(Block toGen){
+        blockId = toGen;
+    }
+
+	public void generate(World world, Random random, int x, int y, int z, int distance, int maxLength) {
 		boolean stalagmiteGenerated = false;
-		Block blockId = WildCaves.blockStoneStalactite;
 		if (distance <= 1) {
 			//x,y,z,blockID, metadata, no update
             if (!world.isAirBlock(x, y + 1, z)) {
@@ -25,14 +30,14 @@ public class GenerateStoneStalactite {
 			int aux;
 			//stalactite base
 			if (!world.isAirBlock(x, topY + 1, z)) {
-				world.setBlock(x, topY, z, blockId, Utils.randomChoise(1, 2, 3, 3), 2);
+                generateStalactiteBase(world, random, x, topY, z);
 				j++;
 			}
 			// stalagmite base
 			if (!world.getBlock(x, botY, z).getMaterial().isLiquid() && WorldGenWildCaves.isWhiteListed(world.getBlock(x, botY - 1, z))) {
 				aux = Utils.randomChoise(-1, 8, 9, 10);
 				if (aux != -1) {
-					world.setBlock(x, botY, z, blockId, aux, 2);
+                    generateStalagmiteBase(world, random, x, botY, z, aux);
 					j++;
 					stalagmiteGenerated = true;
 				}
@@ -68,4 +73,12 @@ public class GenerateStoneStalactite {
 			}
 		}
 	}
+
+    protected void generateStalagmiteBase(World world, Random random, int x, int botY, int z, int aux) {
+        world.setBlock(x, botY, z, blockId, aux, 2);
+    }
+
+    protected void generateStalactiteBase(World world, Random random, int x, int topY, int z) {
+        world.setBlock(x, topY, z, blockId, Utils.randomChoise(1, 2, 3, 3), 2);
+    }
 }
