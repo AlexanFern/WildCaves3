@@ -1,7 +1,7 @@
-
+﻿
 itemGroup.WildCaves3=Wild Caves 3
 
-fossil1.name=Костная кучка
+fossil1.name=Окаменелость
 
 stalactite1.name=Сталактит
 stalactite2.name=Сталактит
@@ -17,31 +17,31 @@ stalacmite1.name=Сталагмит
 stalacmite2.name=Сталагмит
 stalacmite3.name=Сталагмит
 
-sandstoneStalactite1.name=Песчаниковый сталактит
-sandstoneStalactite2.name=Песчаниковый сталактит
-sandstoneStalactite3.name=Песчаниковый сталактит
-sandstoneStalactite4.name=Песчаниковый сталактит
-sandstoneStalactiteConnection1.name=Песчаниковый сталактит
-sandstoneStalactiteConnection2.name=Песчаниковый сталактит
-sandstoneStalactiteConnection3.name=Песчаниковый сталактит
-sandstoneStalactiteConnection4.name=Песчаниковый сталактит
-sandstoneStalactiteEnd.name=Песчаниковый сталактит
-sandstoneStalacmiteEnd.name=Песчаниковый сталагмит
-sandstoneStalacmite1.name=Песчаниковый сталагмит
-sandstoneStalacmite2.name=Песчаниковый сталагмит
-sandstoneStalacmite3.name=Песчаниковый сталагмит
+sandstoneStalactite1.name=Песчаный сталактит
+sandstoneStalactite2.name=Песчаный сталактит
+sandstoneStalactite3.name=Песчаный сталактит
+sandstoneStalactite4.name=Песчаный сталактит
+sandstoneStalactiteConnection1.name=Песчаный сталактит
+sandstoneStalactiteConnection2.name=Песчаный сталактит
+sandstoneStalactiteConnection3.name=Песчаный сталактит
+sandstoneStalactiteConnection4.name=Песчаный сталактит
+sandstoneStalactiteEnd.name=Песчаный сталактит
+sandstoneStalacmiteEnd.name=Песчаный сталактит
+sandstoneStalacmite1.name=Песчаный сталагмит
+sandstoneStalacmite2.name=Песчаный сталагмит
+sandstoneStalacmite3.name=Песчаный сталагмит
 
-glowcap1.name=Светящийся гриб
-glowcap2.name=Светящийся гриб
-glowcap3.name=Светящийся гриб
-gloweed1.name=Светящийся сорняк
-glowcap4top.name=Светящийся гриб
-glowcap4bottom.name=Светящийся гриб
+glowcap1.name=Огнешляпка
+glowcap2.name=Огнешляпка
+glowcap3.name=Огнешляпка
+gloweed1.name=Огнесорняк
+glowcap4top.name=Огнешляпка
+glowcap4bottom.name=Огнешляпка
 
-bluecap1.name=Ледянной гриб
-bluecap2.name=Ледянной гриб
-bluecap3.name=Ледянной гриб
-bluecap4.name=Ледянной гриб
+bluecap1.name=Ледогриб
+bluecap2.name=Ледогриб
+bluecap3.name=Ледогриб
+bluecap4.name=Ледогриб
 
 icicle.name=Сосулька
 icicle1.name=Сосулька
