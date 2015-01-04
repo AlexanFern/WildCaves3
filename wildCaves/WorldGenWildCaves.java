@@ -20,7 +20,7 @@ import wildCaves.generation.biomeGen.GenerationHumid;
 import wildCaves.generation.biomeGen.GenerationJungle;
 import wildCaves.generation.biomeGen.GenerationNormal;
 
-public class WorldGenWildCaves {
+public final class WorldGenWildCaves {
 	public static float probabilityVinesJungle;
 	public static float probabilityVines;
 	public static float probabilityIcicle;
@@ -99,18 +99,42 @@ public class WorldGenWildCaves {
         boolean sandstoneStalactites = config.get(category, "Generate Sandstone stalactites on arid biomes", true).getBoolean(true);
         boolean flora = config.get(category, "Generate flora on caves", true).getBoolean(true);
         boolean stalactites = config.get(category, "Generate stalactites on caves", true).getBoolean(true);
-        String[] list = config.get(category, "Dimension Blacklist", "-1,1").getString().split(",");
-        for (String txt : list) {
-            try {
-                dimensionBlacklist.add(Integer.parseInt(txt.trim()));
-            } catch (NumberFormatException n) {
+        String[] list = config.get(category, "Dimension Blacklist", "-1,1", "Worlds where generation won't occur, by dimension ids. Use [id1;id2] to add a range of id, prefix with - to exclude.").getString().split(",");
+        for(String text:list){
+            if(text!=null && !text.isEmpty()){
+                boolean done = false;
+                if(text.contains("[") && text.contains("]")){
+                    String[] results = text.substring(text.indexOf("[")+1, text.indexOf("]")).split(";");
+                    if(results.length==2){
+                        try {
+                            int a = Integer.parseInt(results[0]);
+                            int b = Integer.parseInt(results[1]);
+                            boolean remove = text.startsWith("-");
+                            for(int x = a; x <=b; x++){
+                                if(remove)
+                                    dimensionBlacklist.remove(x);
+                                else
+                                    dimensionBlacklist.add(x);
+                            }
+                            done = true;
+                        }catch (Exception ignored){
+
+                        }
+                    }
+                }
+                if(!done) {
+                    try {
+                        dimensionBlacklist.add(Integer.parseInt(text.trim()));
+                    } catch (Exception ignored) {
+                    }
+                }
             }
         }
         list = config.get(category, "Block white list", "stone,grass,dirt,cobblestone,gravel,gold_ore,iron_ore,coal_ore,lapis_ore,sandstone,diamond_ore,redstone_ore,lit_redstone_ore,ice,snow,clay,monster_egg,emerald_ore").getString().split(",");
         Block block;
         for (String txt : list) {
             try {
-                block = GameData.blockRegistry.getObject(txt.trim());
+                block = GameData.getBlockRegistry().getObject(txt.trim());
                 if(block != null && block.getMaterial() != Material.air){
                     blockWhiteList.add(block);
                 }
@@ -122,7 +146,7 @@ public class WorldGenWildCaves {
         probabilityVinesJungle = (float) config.get(category, "Probability of vines on jungle caves", 0.5).getDouble(0.5);
         probabilityIcicle = (float) config.get(category, "Probability of icicles on frozen caves", 0.6).getDouble(0.6);
         try{
-            block = GameData.blockRegistry.getObject(config.get(category, "Block to generate in frozen caves", "ice").getString().trim());
+            block = GameData.getBlockRegistry().getObject(config.get(category, "Block to generate in frozen caves", "ice").getString().trim());
             if(block!=null && block.getMaterial().getMaterialMapColor()== MapColor.iceColor){
                 Utils.frozen = block;
             }
