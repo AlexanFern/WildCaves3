@@ -10,7 +10,7 @@ import wildCaves.generation.structureGen.*;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class GenerationJungle extends WorldGenerator {
+public final class GenerationJungle extends WorldGenerator {
 	public GenerationJungle() {
 	}
 

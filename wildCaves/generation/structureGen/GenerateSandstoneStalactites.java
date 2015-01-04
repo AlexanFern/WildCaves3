@@ -7,7 +7,7 @@ import wildCaves.Utils;
 import wildCaves.WildCaves;
 import net.minecraft.world.World;
 
-public class GenerateSandstoneStalactites extends GenerateStoneStalactite{
+public final class GenerateSandstoneStalactites extends GenerateStoneStalactite{
     public GenerateSandstoneStalactites(){
         super(WildCaves.blockSandStalactite);
     }

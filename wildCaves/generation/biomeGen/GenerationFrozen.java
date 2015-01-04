@@ -9,7 +9,7 @@ import wildCaves.Utils;
 import wildCaves.WorldGenWildCaves;
 import wildCaves.generation.structureGen.*;
 
-public class GenerationFrozen extends WorldGenerator {
+public final class GenerationFrozen extends WorldGenerator {
 	public GenerationFrozen() {
 	}
 

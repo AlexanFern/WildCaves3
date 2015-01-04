@@ -16,9 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.IShearable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockFlora extends BlockBush implements IShearable {
 	@SideOnly(Side.CLIENT)
@@ -37,14 +39,10 @@ public class BlockFlora extends BlockBush implements IShearable {
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		boolean result = false;
+        if(world.isBlockNormalCubeDefault(x, y - 1, z, false))
+            return true;
 		Block bellowId = world.getBlock(x, y - 1, z);
-		int metadataBellow = world.getBlockMetadata(x, y - 1, z);
-		boolean solidBellow = world.isBlockNormalCubeDefault(x, y - 1, z, false);
-		if (solidBellow || bellowId.getMaterial().getMaterialMapColor() == MapColor.iceColor || (bellowId == this && metadataBellow == 4)) {
-			result = true;
-		}
-		return result;
+		return bellowId.getMaterial().getMaterialMapColor() == MapColor.iceColor || (bellowId == this && world.getBlockMetadata(x, y - 1, z) == 4);
 	}
 
     @Override
@@ -86,8 +84,7 @@ public class BlockFlora extends BlockBush implements IShearable {
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block blockID) {
-		if (!this.canBlockStay(world, x, y, z))
-			world.setBlockToAir(x, y, z);
+		checkAndDropBlock(world, x, y, z);
 	}
 
 	@Override
@@ -133,6 +130,11 @@ public class BlockFlora extends BlockBush implements IShearable {
 	protected boolean canPlaceBlockOn(Block par1) {
 		return true;
 	}
+
+    @Override
+    public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable){
+        return true;
+    }
 
     @Override
     public Block setLightLevel(float val){

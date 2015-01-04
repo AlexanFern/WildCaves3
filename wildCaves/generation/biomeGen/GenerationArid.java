@@ -11,7 +11,7 @@ import wildCaves.generation.structureGen.DecorationHelper;
 import wildCaves.generation.structureGen.GenerateSandstoneStalactites;
 import wildCaves.generation.structureGen.GenerateStoneStalactite;
 
-public class GenerationArid extends WorldGenerator {
+public final class GenerationArid extends WorldGenerator {
 	public GenerationArid() {
 	}
 

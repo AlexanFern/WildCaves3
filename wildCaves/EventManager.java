@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 
-public class EventManager
+public final class EventManager
 {
     private final WorldGenMinable[] mines = {new WorldGenMinable(WildCaves.blockFossils, 4), new WorldGenMinable(WildCaves.blockFossils, 5), new WorldGenMinable(WildCaves.blockFossils, 6)};
 	private final int chanceForNodeToSpawn;
@@ -36,7 +36,7 @@ public class EventManager
      * @param minY minimum Y-Coordinate height at which this block may spawn
      * @param maxY maximum Y-Coordinate height at which this block may spawn
      **/
-    public void addOreSpawn(WorldGenMinable mine, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int chancesToSpawn, int minY, int maxY)
+    private void addOreSpawn(WorldGenMinable mine, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int chancesToSpawn, int minY, int maxY)
     {
         assert minY > 0 && maxY > 0: "addOreSpawn: The Minimum Y and Maximum Y must be greater than 0";
         int diffBtwnMinMaxY = maxY - minY;

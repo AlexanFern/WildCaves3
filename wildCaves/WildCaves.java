@@ -21,8 +21,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@Mod(modid = WildCaves.modid, name = "Wild Caves 3", useMetadata = true)
-public class WildCaves {
+@Mod(modid = WildCaves.modid, name = "Wild Caves 3", version = "${version}")
+public final class WildCaves {
 	public static final String modid = "wildcaves3";
     public static final ArrayList<String> stalacs = new ArrayList<String>(Arrays.asList("stalactite1", "stalactite2", "stalactite3", "stalactite4", "stalactiteConnection1", "stalactiteConnection2", "stalactiteConnection3",
             "stalactiteConnection4", "stalactiteEnd", "stalacmiteEnd", "stalacmite1", "stalacmite2", "stalacmite3"));
@@ -46,12 +46,12 @@ public class WildCaves {
     };
 
 	public void initBlocks() {
-        blockStoneStalactite = GameRegistry.registerBlock(new BlockStoneStalactite(stalacs.size()), ItemStalactite.class, "StoneStalactite", modid, stalacs);
+        blockStoneStalactite = GameRegistry.registerBlock(new BlockStoneStalactite(stalacs.size()), ItemStalactite.class, "StoneStalactite", stalacs);
         blockSandStalactite = GameRegistry.registerBlock(new BlockStalactite(sandStalacs.size(), Item.getItemFromBlock(Blocks.sandstone)).
-                setBlockName("sandstoneStalactiteBlock").setBlockTextureName(":sandstoneStructure"), ItemStalactite.class, "SandstoneSalactite", modid, sandStalacs);
-        blockDecorations = GameRegistry.registerBlock(new BlockDecorations(icicles.size()), MultiItemBlock.class, "Decorations", modid, icicles);
-        blockFlora = GameRegistry.registerBlock(new BlockFlora(caps.size()).setLightLevel(floraLightLevel), MultiItemBlock.class, "Flora", modid, caps);
-        blockFossils = GameRegistry.registerBlock(new BlockFossils(fossils.size()), MultiItemBlock.class, "FossilBlock", modid, fossils);
+                setBlockName("sandstoneStalactiteBlock").setBlockTextureName(":sandstoneStructure"), ItemStalactite.class, "SandstoneSalactite", sandStalacs);
+        blockDecorations = GameRegistry.registerBlock(new BlockDecorations(icicles.size()), MultiItemBlock.class, "Decorations", icicles);
+        blockFlora = GameRegistry.registerBlock(new BlockFlora(caps.size()).setLightLevel(floraLightLevel), MultiItemBlock.class, "Flora", caps);
+        blockFossils = GameRegistry.registerBlock(new BlockFossils(fossils.size()), MultiItemBlock.class, "FossilBlock", fossils);
 	}
 
 	@EventHandler

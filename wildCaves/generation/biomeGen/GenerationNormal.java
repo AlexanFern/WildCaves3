@@ -9,7 +9,7 @@ import wildCaves.Utils;
 import wildCaves.WorldGenWildCaves;
 import wildCaves.generation.structureGen.*;
 
-public class GenerationNormal extends WorldGenerator {
+public final class GenerationNormal extends WorldGenerator {
 	public GenerationNormal() {
 	}
 
