@@ -1,11 +1,12 @@
 package wildCaves.generation.structureGen;
 
-import java.util.Random;
-
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import wildCaves.Utils;
 import wildCaves.WildCaves;
-import net.minecraft.world.World;
+
+import java.util.Random;
 
 public final class GenerateSandstoneStalactites extends GenerateStoneStalactite{
     public GenerateSandstoneStalactites(){
@@ -13,16 +14,16 @@ public final class GenerateSandstoneStalactites extends GenerateStoneStalactite{
     }
 
     @Override
-    protected void generateStalactiteBase(World world, Random random, int x, int topY, int z) {
-        super.generateStalactiteBase(world, random, x, topY, z);
-        Utils.convertToSandType(world, random, x, topY, z);
+    protected void generateStalactiteBase(World world, Random random, BlockPos topY) {
+        super.generateStalactiteBase(world, random, topY);
+        Utils.convertToSandType(world, random, topY);
     }
 
     @Override
-    protected void generateStalagmiteBase(World world, Random random, int x, int botY, int z, int aux) {
-        if (world.getBlock(x, botY - 1, z) == Blocks.stone)
-            world.setBlock(x, botY - 1, z, Blocks.sandstone, 0, 2);
-        super.generateStalagmiteBase(world, random, x, botY, z, aux);
-        Utils.convertToSandType(world, random, x, botY, z);
+    protected void generateStalagmiteBase(World world, Random random, BlockPos botY, int aux) {
+        if (world.getBlockState(botY.down()) == Blocks.stone)
+            world.setBlockState(botY.down(), Blocks.sandstone.getDefaultState(), 2);
+        super.generateStalagmiteBase(world, random, botY, aux);
+        Utils.convertToSandType(world, random, botY);
     }
 }

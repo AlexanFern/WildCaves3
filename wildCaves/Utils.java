@@ -4,28 +4,30 @@ import java.util.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public final class Utils {
     public static Block frozen = Blocks.ice;
     public static List<Block> freezable = Arrays.asList(Blocks.stone, Blocks.dirt, Blocks.gravel, Blocks.grass);
 	// transforms an area into snow and ice
-	public static void convertToFrozenType(World world, Random random, int x, int y, int z) {
+	public static void convertToFrozenType(World world, Random random, BlockPos pos) {
 		int height = random.nextInt(5) + 3;
 		int length = random.nextInt(5) + 3;
 		int width = random.nextInt(5) + 3;
-		int newX = x - length / 2;
-		int newY = y + height / 2;
-		int newZ = z - width / 2;
+		int newX = pos.getX() - length / 2;
+		int newY = pos.getY() + height / 2;
+		int newZ = pos.getZ() - width / 2;
 		Block aux;
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < length; j++) {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.8f, 0.2f, 0, 0, 0, 0) == 1) {
-						aux = world.getBlock(newX + j, newY - i, newZ + k);
+						BlockPos newPos = new BlockPos(newX + j, newY - i, newZ + k);
+						aux = world.getBlockState(newPos).getBlock();
 						if (freezable.contains(aux))// stone -> Ice
-							world.setBlock(newX + j, newY - i, newZ + k, frozen, 0, 2);
+							world.setBlockState(newPos, frozen.getDefaultState(), 2);
 					}
 				}
 			}
@@ -38,22 +40,23 @@ public final class Utils {
         sandEquivalent.put(Blocks.gravel, Blocks.sand);
     }
 	//transform an area in to sand and sandstone
-	public static void convertToSandType(World world, Random random, int x, int y, int z) {
+	public static void convertToSandType(World world, Random random, BlockPos pos) {
 		int height = random.nextInt(5) + 3;
 		int length = random.nextInt(5) + 3;
 		int width = random.nextInt(5) + 3;
-		int newX = x - length / 2;
-		int newY = y + height / 2;
-		int newZ = z - width / 2;
+		int newX = pos.getX() - length / 2;
+		int newY = pos.getY() + height / 2;
+		int newZ = pos.getZ() - width / 2;
 		Block aux;
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < length; j++) {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.7f, 0.3f, 0, 0, 0, 0) == 1) {
-						aux = sandEquivalent.get(world.getBlock(newX + j, newY - i, newZ + k));
+						BlockPos newPos = new BlockPos(newX + j, newY - i, newZ + k);
+						aux = sandEquivalent.get(world.getBlockState(newPos).getBlock());
 						if (aux != null)// stone -> sandstone // dirt/gravel -> sand
-							world.setBlock(newX + j, newY - i, newZ + k, aux, 0, 2);
+							world.setBlockState(newPos, aux.getDefaultState(), 2);
 					}
 				}
 			}
@@ -61,10 +64,10 @@ public final class Utils {
 	}
 
 	// gets the number of empty blocks between the current one and the closest one bellow
-	public static int getNumEmptyBlocks(World world, int x, int y, int z) {
+	public static int getNumEmptyBlocks(World world, BlockPos pos) {
 		int dist = 0;
-		while (y > 5 && !world.isBlockNormalCubeDefault(x, y, z, true) && world.isAirBlock(x, y, z)) {
-			y--;
+		while (pos.getY() > 5 && !world.isBlockNormalCube(pos, true) && world.isAirBlock(pos)) {
+			pos = pos.down();
 			dist++;
 		}
 		return dist;

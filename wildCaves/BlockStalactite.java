@@ -1,11 +1,11 @@
 package wildCaves;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,29 +13,57 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockStalactite extends Block {
-	private final int numOfStructures;
     private final Item droppedItem;
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
+	private PropertyInteger ALL_TYPE;
 
-	public BlockStalactite(int num, Item drop) {
+	public BlockStalactite(Item drop) {
 		super(Material.rock);
-		this.numOfStructures = num;
         this.droppedItem = drop;
 		this.setHardness(0.8F);
 		this.setCreativeTab(WildCaves.tabWildCaves);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ALL_TYPE, 0));
+	}
+
+	public int getNumOfStructures(){
+		return WildCaves.sandStalacs.size();
+	}
+
+	public boolean isUp(IBlockState state){
+		return getMetaFromState(state) < 4;
+	}
+
+	@Override
+	protected BlockState createBlockState(){
+		if(ALL_TYPE == null) {
+			ALL_TYPE = PropertyInteger.create("type", 0, getNumOfStructures() - 1);
+		}
+		return new BlockState(this, new IProperty[]{ALL_TYPE});
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state){
+		return (Integer) state.getValue(ALL_TYPE);
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta){
+		return this.getDefaultState().withProperty(ALL_TYPE, meta);
 	}
 
     @Override
-    public Item getItemDropped(int metadata, Random random, int par3) {
+    public Item getItemDropped(IBlockState metadata, Random random, int par3) {
         return droppedItem;
     }
 
@@ -44,16 +72,15 @@ public class BlockStalactite extends Block {
         return rand.nextInt(3) - 1;
     }
 
-	@Override
-	public boolean canBlockStay(World world, int x, int y, int z) {
+	public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
 		boolean result = false;
-		int metadata = world.getBlockMetadata(x, y, z);
+		int metadata = getMetaFromState(state);
 		if ((metadata != 0 && metadata < 4) || metadata == 7 || metadata == 11)
-			result = connected(world, x, y, z, true);
+			result = connected(world, pos, true);
 		else if (metadata == 6 || (metadata > 7 && metadata < 11) || metadata == 12)
-			result = connected(world, x, y, z, false);
+			result = connected(world, pos, false);
 		else if (metadata == 0 || metadata == 4 || metadata == 5)
-			result = connected(world, x, y, z, true) || connected(world, x, y, z, false);
+			result = connected(world, pos, true) || connected(world, pos, false);
 		return result;
 	}
 
@@ -63,7 +90,7 @@ public class BlockStalactite extends Block {
 	}
 
 	//aux funtion for canblockStay
-	public boolean connected(World world, int x, int y, int z, boolean searchUp) {
+	public boolean connected(World world, BlockPos pos, boolean searchUp) {
 		int increment;
 		int i;
 		if (searchUp)
@@ -71,65 +98,59 @@ public class BlockStalactite extends Block {
 		else
 			increment = -1;
 		i = increment;
-		while (world.getBlock(x, y + i, z) == WildCaves.blockStoneStalactite || world.getBlock(x, y + i, z) == WildCaves.blockSandStalactite)
+		while (world.getBlockState(pos.up(i)).getBlock() == WildCaves.blockStoneStalactite || world.getBlockState(pos.up(i)).getBlock() == WildCaves.blockSandStalactite)
 			i = i + increment;
-		return world.getBlock(x, y + i, z).isNormalCube(world, x, y+i, z);
+		return world.getBlockState(pos.up(i)).getBlock().isNormalCube(world, pos.up(i));
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
+	public AxisAlignedBB getCollisionBoundingBox(World par1World, BlockPos pos, IBlockState state) {
 		if (WildCaves.solidStalactites)
-			return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
+			return super.getCollisionBoundingBox(par1World, pos, state);
 		else
 			return null;
 	}
 
 	@Override
-	public int getDamageValue(World world, int x, int y, int z) {
-		return world.getBlockMetadata(x, y, z);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		if (metadata >= numOfStructures)
-			metadata = numOfStructures - 1;
-		return this.iconArray[metadata];
-	}
-
-	@Override
-	public int getRenderType() {
-		return 1;
+	public int getDamageValue(World world, BlockPos pos) {
+		return getMetaFromState(world.getBlockState(pos));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for (int i = 0; i < numOfStructures; ++i) {
+		for (int i = 0; i < getNumOfStructures(); ++i) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
+	@SideOnly(Side.CLIENT)
+	public EnumWorldBlockLayer getBlockLayer()
+	{
+		return EnumWorldBlockLayer.CUTOUT;
+	}
+
+	@Override
+	public boolean isFullBlock() {
 		return false;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
-		this.updateTick(world, x, y, z, null);
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
+		this.updateTick(world, pos, state, null);
 	}
 
     @Override
-    public void updateTick(World world, int x, int y, int z, Random random) {
-        if (!this.canBlockStay(world, x, y, z)){
-            this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-            world.setBlockToAir(x, y, z);
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+        if (!this.canBlockStay(world, pos, state)){
+            this.dropBlockAsItem(world, pos, state, 0);
+            world.setBlockToAir(pos);
         }
     }
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity) {
         if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode && ((EntityPlayer) entity).capabilities.isFlying){
             return;
         }
@@ -138,25 +159,16 @@ public class BlockStalactite extends Block {
 	}
 
 	@Override
-	public void onFallenUpon(World world, int par2, int par3, int par4, Entity entity, float par6) {
+	public void onFallenUpon(World world, BlockPos pos, Entity entity, float par6) {
 		if (WildCaves.damageWhenFallenOn && entity.isEntityAlive()) {
 			entity.attackEntityFrom(DamageSource.generic, 5);
 		}
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block blockID) {
-		if (!world.isRemote && !this.canBlockStay(world, x, y, z)) {
-			world.func_147480_a(x, y, z, true);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconArray = new IIcon[numOfStructures];
-		for (int i = 0; i < this.iconArray.length; ++i) {
-			this.iconArray[i] = iconRegister.registerIcon(WildCaves.modid + getTextureName() + i);
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighbor) {
+		if (!world.isRemote && !this.canBlockStay(world, pos, state)) {
+			world.destroyBlock(pos, true);
 		}
 	}
 
@@ -166,8 +178,8 @@ public class BlockStalactite extends Block {
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
-		int metadata = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, BlockPos pos) {
+		int metadata = getMetaFromState(par1IBlockAccess.getBlockState(pos));
 		switch (metadata) {
 		case 1:
 			this.setBlockBounds(0.25F, 0.2F, 0.25F, 0.75F, 1F, 0.75F);

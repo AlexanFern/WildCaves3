@@ -1,34 +1,40 @@
 package wildCaves;
 
-import java.util.Random;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockStoneStalactite extends BlockStalactite {
-	public BlockStoneStalactite(int number) {
-		super(number, Item.getItemFromBlock(Blocks.cobblestone));
-        setBlockName("stoneStalactiteBlock");
-        setBlockTextureName(":stoneStructure");
+	public BlockStoneStalactite() {
+		super(Item.getItemFromBlock(Blocks.cobblestone));
+        setUnlocalizedName("stoneStalactiteBlock");
+	}
+
+	@Override
+	public int getNumOfStructures(){
+		return WildCaves.stalacs.size();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		if (world.getBlockMetadata(x, y, z) < 4) {
-			boolean isWatered = world.getBlock(x, y + 2, z).getMaterial().isLiquid();
-			int h = y;
-			while (world.getBlock(x, h, z) == this) {
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+		if (isUp(state)) {
+			boolean isWatered = world.getBlockState(pos.up(2)).getBlock().getMaterial().isLiquid();
+			while (world.getBlockState(pos).getBlock() == this) {
 				if (random.nextInt(5 + (isWatered ? 0 : 10)) == 0) {
-					double d0 = x + random.nextFloat();
-					double d2 = z + random.nextFloat();
-					double d1 = h + 0.05D + (d0 - x) * (d2 - z);
-					world.spawnParticle("dripWater", d0, d1, d2, 0.0D, 0.0D, 0.0D);
+					double d0 = pos.getX() + random.nextFloat();
+					double d2 = pos.getZ() + random.nextFloat();
+					double d1 = pos.getY() + 0.05D + (d0 - pos.getX()) * (d2 - pos.getZ());
+					world.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D);
 				}
-				h--;
+				pos = pos.down();
 			}
 		}
 	}

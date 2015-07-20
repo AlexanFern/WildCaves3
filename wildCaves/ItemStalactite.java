@@ -1,9 +1,13 @@
 package wildCaves;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSnow;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -14,45 +18,27 @@ public class ItemStalactite extends MultiItemBlock {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer par2EntityPlayer, World world, int x, int y, int z, int side, float par8, float par9, float par10) {
-		Block blockId = world.getBlock(x, y, z);
-		if (blockId == Blocks.snow && (world.getBlockMetadata(x, y, z) & 7) < 1) {
-			side = 1;
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer par2EntityPlayer, World world, BlockPos pos, EnumFacing side, float par8, float par9, float par10) {
+		IBlockState state = world.getBlockState(pos);
+		Block blockId = state.getBlock();
+		if (blockId == Blocks.snow && ((Integer)state.getValue(BlockSnow.LAYERS)) < 1) {
+			side = EnumFacing.UP;
 		} else if (blockId != Blocks.vine && blockId != Blocks.tallgrass && blockId != Blocks.deadbush
-				&& (blockId == Blocks.air || !blockId.isReplaceable(world, x, y, z))) {
-			if (side == 0) {
-				--y;
-			}
-			if (side == 1) {
-				++y;
-			}
-			if (side == 2) {
-				--z;
-			}
-			if (side == 3) {
-				++z;
-			}
-			if (side == 4) {
-				--x;
-			}
-			if (side == 5) {
-				++x;
-			}
+				&& (blockId == Blocks.air || !blockId.isReplaceable(world, pos))) {
+			pos = pos.offset(side);
 		}
 		if (itemStack.stackSize == 0) {
 			return false;
-		} else if (!par2EntityPlayer.canPlayerEdit(x, y, z, side, itemStack)) {
+		} else if (!par2EntityPlayer.canPlayerEdit(pos, side, itemStack)) {
 			return false;
-		} else if (y == 255) {
+		} else if (pos.getY() == 255) {
 			return false;
-		} else if (world.canPlaceEntityOnSide(WildCaves.blockStoneStalactite, x, y, z, false, side, par2EntityPlayer, itemStack)
-				|| world.canPlaceEntityOnSide(WildCaves.blockSandStalactite, x, y, z, false, side, par2EntityPlayer, itemStack)) {
-			if (canPlace(itemStack, world, x, y, z)) {
-				Block block = WildCaves.blockStoneStalactite;
-				int j1 = this.getMetadata(itemStack.getItemDamage());
-				int k1 = block.onBlockPlaced(world, x, y, z, side, par8, par9, par10, j1);
-				if (placeBlockAt(itemStack, par2EntityPlayer, world, x, y, z, side, par8, par9, par10, k1)) {
-					world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, block.stepSound.func_150496_b(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
+		} else if (world.canBlockBePlaced(block, pos, false, side, par2EntityPlayer, itemStack)) {
+			if (canPlace(itemStack, world, pos)) {
+				int j1 = this.getMetadata(itemStack.getMetadata());
+				IBlockState k1 = block.onBlockPlaced(world, pos, side, par8, par9, par10, j1, par2EntityPlayer);
+				if (placeBlockAt(itemStack, par2EntityPlayer, world, pos, side, par8, par9, par10, k1)) {
+					world.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, block.stepSound.getPlaceSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getFrequency() * 0.8F);
 					--itemStack.stackSize;
 				}
 				return true;
@@ -63,13 +49,13 @@ public class ItemStalactite extends MultiItemBlock {
 		}
 	}
 
-	private boolean canPlace(ItemStack itemStack, World world, int x, int y, int z) {
+	private boolean canPlace(ItemStack itemStack, World world, BlockPos pos) {
 		boolean result = false;
-		int metadata = getMetadata(itemStack.getItemDamage());
-		boolean upNormal = world.isBlockNormalCubeDefault(x, y + 1, z, false);
-		boolean downNormal = world.isBlockNormalCubeDefault(x, y - 1, z, false);
-		boolean upStalactite = world.getBlock(x, y + 1, z) == WildCaves.blockStoneStalactite || world.getBlock(x, y + 1, z) == WildCaves.blockSandStalactite;
-		boolean downStalactite = world.getBlock(x, y - 1, z) == WildCaves.blockStoneStalactite || world.getBlock(x, y - 1, z) == WildCaves.blockSandStalactite;
+		int metadata = getMetadata(itemStack.getMetadata());
+		boolean upNormal = world.isBlockNormalCube(pos.up(), false);
+		boolean downNormal = world.isBlockNormalCube(pos.down(), false);
+		boolean upStalactite = isStalactite(world.getBlockState(pos.up()));
+		boolean downStalactite = isStalactite(world.getBlockState(pos.down()));
 		if ((metadata == 0 || metadata == 4 || metadata == 5) && (upNormal || downNormal || upStalactite || downStalactite))
 			result = true;
 		else if ((metadata < 4 || metadata == 7 || metadata == 11) && (upNormal || upStalactite))
@@ -77,5 +63,9 @@ public class ItemStalactite extends MultiItemBlock {
 		else if ((metadata == 6 || (metadata > 7 && metadata < 11) || metadata == 12) && (downNormal || downStalactite))
 			result = true;
 		return result;
+	}
+
+	private boolean isStalactite(IBlockState state){
+		return state.getBlock() == WildCaves.blockStoneStalactite || state.getBlock() == WildCaves.blockSandStalactite;
 	}
 }

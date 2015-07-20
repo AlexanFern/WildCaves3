@@ -9,8 +9,8 @@
 !LICENSE.md
 !README.md
 !mcmod.info
-!assets/*
-!wildCaves/*
+!/assets/
+!/wildCaves/
 !WildCaves3.png
 !update.xml
 !changelog.md

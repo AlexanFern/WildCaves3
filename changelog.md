@@ -1,3 +1,7 @@
+== WildCaves3 0.4.3.7 (1.8) ==
+* Updated for 1.8 (block states and models)
+* Made flooded caves bigger
+
 == WildCaves3 0.4.3.6 (1.7.2) ==
 * Updated for 1.7.2
 * Added "simple" flooded cave generation

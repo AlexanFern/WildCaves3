@@ -1,24 +1,21 @@
 package wildCaves;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import wildCaves.generation.biomeGen.GenerationArid;
-import wildCaves.generation.biomeGen.GenerationFrozen;
-import wildCaves.generation.biomeGen.GenerationHumid;
-import wildCaves.generation.biomeGen.GenerationJungle;
-import wildCaves.generation.biomeGen.GenerationNormal;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameData;
+import wildCaves.generation.biomeGen.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public final class WorldGenWildCaves {
 	public static float probabilityVinesJungle;
@@ -55,39 +52,36 @@ public final class WorldGenWildCaves {
 
     @SubscribeEvent
     public void decorate(DecorateBiomeEvent.Post decorationEvent){
-        generate(decorationEvent.rand, decorationEvent.chunkX + 8, decorationEvent.chunkZ + 8, decorationEvent.world);
+        generate(decorationEvent.rand, decorationEvent.pos.add(8, 0, 8), decorationEvent.world);
     }
 
-	public void generate(Random random, int blockX, int blockZ, World world) {
-		if (!dimensionBlacklist.contains(world.provider.dimensionId)) {
-            int Xcoord;
-            int Ycoord;
-            int Zcoord;
+	public void generate(Random random, BlockPos pos, World world) {
+		if (!dimensionBlacklist.contains(world.provider.getDimensionId())) {
+            BlockPos coord;
             //int dist;// distance
             BiomeGenBase biome;
 			for (int i = 0; i < timesPerChunck; i++) {
-				Xcoord = blockX + random.nextInt(16);
-				Zcoord = blockZ + random.nextInt(16);
-                Ycoord = Math.min(world.getHeightValue(Xcoord, Zcoord)-1, random.nextInt(maxGenHeight));
+                coord = pos.add(random.nextInt(16), 0, random.nextInt(16));
+                coord = new BlockPos(pos.getX(), Math.min(world.getHeight(coord).getY()-1, random.nextInt(maxGenHeight)), pos.getZ());
 				// search for the first available spot
-				while (Ycoord > 10 && (!blockWhiteList.contains(world.getBlock(Xcoord, Ycoord + 1, Zcoord)) || !world.isAirBlock(Xcoord, Ycoord, Zcoord))) {
-					Ycoord--;
+				while (coord.getY() > 10 && (!blockWhiteList.contains(world.getBlockState(coord.up()).getBlock()) || !world.isAirBlock(coord))) {
+					coord = coord.down();
 				}
 				// found a spot
-				if (Ycoord > 10) {
+				if (coord.getY() > 10) {
 					// getting the biome
-					biome = world.getBiomeGenForCoords(Xcoord, Zcoord);
+					biome = world.getBiomeGenForCoords(coord);
 					//dist = Utils.getNumEmptyBlocks(world, Xcoord, Ycoord, Zcoord);
 					if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FROZEN))
-						frozenGen.generate(world, random, Xcoord, Ycoord, Zcoord);
+						frozenGen.generate(world, random, coord);
 					else if (biome.temperature > 1.5f && biome.rainfall < 0.1f)
-						aridGen.generate(world, random, Xcoord, Ycoord, Zcoord);
+						aridGen.generate(world, random, coord);
 					else if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.JUNGLE))
-						jungleGen.generate(world, random, Xcoord, Ycoord, Zcoord);
+						jungleGen.generate(world, random, coord);
 					else if (biome.isHighHumidity() || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.WATER))
-						wetGen.generate(world, random, Xcoord, Ycoord, Zcoord);
+						wetGen.generate(world, random, coord);
 					else
-						normalGen.generate(world, random, Xcoord, Ycoord, Zcoord);
+						normalGen.generate(world, random, coord);
 				}
 			}
 		}
