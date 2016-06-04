@@ -3,7 +3,8 @@ package wildCaves;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -52,11 +53,11 @@ public final class WorldGenWildCaves {
 
     @SubscribeEvent
     public void decorate(DecorateBiomeEvent.Post decorationEvent){
-        generate(decorationEvent.rand, decorationEvent.pos.add(8, 0, 8), decorationEvent.world);
+        generate(decorationEvent.getRand(), decorationEvent.getPos().add(8, 0, 8), decorationEvent.getWorld());
     }
 
 	public void generate(Random random, BlockPos pos, World world) {
-		if (!dimensionBlacklist.contains(world.provider.getDimensionId())) {
+		if (!dimensionBlacklist.contains(world.provider.getDimension())) {
             BlockPos coord;
             //int dist;// distance
             BiomeGenBase biome;
@@ -72,9 +73,9 @@ public final class WorldGenWildCaves {
 					// getting the biome
 					biome = world.getBiomeGenForCoords(coord);
 					//dist = Utils.getNumEmptyBlocks(world, Xcoord, Ycoord, Zcoord);
-					if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FROZEN))
+					if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.COLD))
 						frozenGen.generate(world, random, coord);
-					else if (biome.temperature > 1.5f && biome.rainfall < 0.1f)
+					else if (biome.getTemperature() > 1.5f && biome.getRainfall() < 0.1f)
 						aridGen.generate(world, random, coord);
 					else if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.JUNGLE))
 						jungleGen.generate(world, random, coord);
@@ -128,11 +129,11 @@ public final class WorldGenWildCaves {
         Block block;
         for (String txt : list) {
             try {
-                block = GameData.getBlockRegistry().getObject(txt.trim());
-                if(block != null && block.getMaterial() != Material.air){
+                block = GameData.getBlockRegistry().getObject(new ResourceLocation(txt.trim()));
+                if(block != null && block.getMaterial(null) != Material.air){
                     blockWhiteList.add(block);
                 }
-            } catch (Exception n) {
+            } catch (Throwable n) {
             }
         }
         // --Biome specific ratios------
@@ -140,11 +141,11 @@ public final class WorldGenWildCaves {
         probabilityVinesJungle = (float) config.get(category, "Probability of vines on jungle caves", 0.5).getDouble(0.5);
         probabilityIcicle = (float) config.get(category, "Probability of icicles on frozen caves", 0.6).getDouble(0.6);
         try{
-            block = GameData.getBlockRegistry().getObject(config.get(category, "Block to generate in frozen caves", "ice").getString().trim());
-            if(block!=null && block.getMaterial().getMaterialMapColor()== MapColor.iceColor){
+            block = GameData.getBlockRegistry().getObject(new ResourceLocation(config.get(category, "Block to generate in frozen caves", "ice").getString().trim()));
+            if(block!=null && block.getMapColor(null) == MapColor.iceColor){
                 Utils.frozen = block;
             }
-        }catch (Exception n){
+        }catch (Throwable n){
         }
         probabilityWet = (float) config.get(category, "Probability of more water fountains on wet caves", 0.1).getDouble(0.1);
         probabilityDry = (float) config.get(category, "Probability of less generation arid caves", 0.5).getDouble(0.5);

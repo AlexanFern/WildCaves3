@@ -1,4 +1,11 @@
 <mod modid="wildcaves3">
+    <mcVersion version="1.9">
+        <release type="release" version="0.4.3.7"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/ap6lg1y79dglbcn/WildCaves3-0.4.3.7(1.9).jar"
+                 md5="C14394A49ADC89E4DB9934EF46FD043E"
+                />
+    </mcVersion>
     <mcVersion version="1.8">
         <release type="release" version="0.4.3.7"
                  url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"

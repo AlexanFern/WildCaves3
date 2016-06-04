@@ -1,7 +1,7 @@
 package wildCaves.generation.structureGen;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import wildCaves.Utils;
 import wildCaves.WildCaves;

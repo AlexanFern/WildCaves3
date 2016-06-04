@@ -3,8 +3,8 @@ package wildCaves;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,9 +24,9 @@ public class BlockStoneStalactite extends BlockStalactite {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
 		if (isUp(state)) {
-			boolean isWatered = world.getBlockState(pos.up(2)).getBlock().getMaterial().isLiquid();
+			boolean isWatered = world.getBlockState(pos.up(2)).getMaterial().isLiquid();
 			while (world.getBlockState(pos).getBlock() == this) {
 				if (random.nextInt(5 + (isWatered ? 0 : 10)) == 0) {
 					double d0 = pos.getX() + random.nextFloat();

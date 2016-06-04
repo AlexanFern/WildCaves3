@@ -2,17 +2,19 @@ package wildCaves;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -27,14 +29,15 @@ import java.util.Random;
 
 public class BlockFlora extends BlockBush implements IShearable {
 	private PropertyInteger ALL_TYPE;
+	private static AxisAlignedBB LOW_AABB = new AxisAlignedBB(0.25F, 0F, 0.25F, 0.6F, 0.75F, 0.75F);
+	private static AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0.25F, 0F, 0.25F, 0.75F, 1F, 0.75F);
 
 	public BlockFlora() {
 		super(Material.plants);
-		this.setCreativeTab(WildCaves.tabWildCaves);
 		this.setLightOpacity(0);
-		this.setStepSound(soundTypeGrass);
-        setResistance(0.6F);
-        setUnlocalizedName("floraBlock");
+		this.setStepSound(SoundType.PLANT);
+        this.setResistance(0.6F);
+        this.setUnlocalizedName("floraBlock");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ALL_TYPE, 0));
 	}
 
@@ -43,17 +46,17 @@ public class BlockFlora extends BlockBush implements IShearable {
 	}
 
 	@Override
-	protected BlockState createBlockState()
+	protected BlockStateContainer createBlockState()
 	{
 		if(ALL_TYPE == null) {
 			ALL_TYPE = PropertyInteger.create("type", 0, getNumOfStructures() - 1);
 		}
-		return new BlockState(this, new IProperty[]{ALL_TYPE});
+		return new BlockStateContainer(this, ALL_TYPE);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state){
-		return (Integer) state.getValue(ALL_TYPE);
+		return state.getValue(ALL_TYPE);
 	}
 
 	@Override
@@ -65,8 +68,8 @@ public class BlockFlora extends BlockBush implements IShearable {
 	public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
         if(world.isBlockNormalCube(pos.down(), true))
             return true;
-		Block bellowId = world.getBlockState(pos.down()).getBlock();
-		return bellowId.getMaterial().getMaterialMapColor() == MapColor.iceColor || (bellowId == this && getMetaFromState(world.getBlockState(pos.down())) == 4);
+		IBlockState bellowId = world.getBlockState(pos.down());
+		return bellowId.getMapColor() == MapColor.iceColor || (bellowId.getBlock() == this && getMetaFromState(bellowId) == 4);
 	}
 
     @Override
@@ -76,7 +79,7 @@ public class BlockFlora extends BlockBush implements IShearable {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
 		for (int i = 0; i < getNumOfStructures(); ++i) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
@@ -117,29 +120,25 @@ public class BlockFlora extends BlockBush implements IShearable {
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, BlockPos pos) {
-		int metadata = getMetaFromState(par1IBlockAccess.getBlockState(pos));
-		//setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ)
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess par1IBlockAccess, BlockPos pos) {
+		int metadata = getMetaFromState(state);
 		switch (metadata) {
 		case 1:
-			this.setBlockBounds(0.25F, 0F, 0.25F, 0.60F, 0.75F, 0.75F);
-			break;
+			return LOW_AABB;
 		case 2:
-			this.setBlockBounds(0.25F, 0F, 0.25F, 0.75F, 0.4F, 0.75F);
-			break;
+			return DEFAULT_AABB.setMaxY(0.4F);
 		default:
-			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 1F, 0.75F);
-			break;
+			return DEFAULT_AABB;
 		}
 	}
 
-	@Override
-	protected boolean canPlaceBlockOn(Block par1) {
+	@Override//Can Place Block On
+	protected boolean func_185514_i(IBlockState par1) {
 		return true;
 	}
 
     @Override
-    public boolean canSustainPlant(IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable){
+    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable){
         return true;
     }
 

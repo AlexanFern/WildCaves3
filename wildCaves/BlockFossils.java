@@ -1,6 +1,7 @@
 package wildCaves;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -13,9 +14,8 @@ public class BlockFossils extends Block {
 	public BlockFossils() {
 		super(Material.rock);
 		this.setHardness(1F);
-		this.setCreativeTab(WildCaves.tabWildCaves);
         setUnlocalizedName("fossilsBlock");
-		this.setStepSound(soundTypePiston);
+		this.setStepSound(SoundType.STONE);
 	}
 
 	@Override

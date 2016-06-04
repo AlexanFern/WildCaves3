@@ -4,7 +4,7 @@ import net.minecraft.block.BlockVine;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import wildCaves.Utils;
@@ -69,7 +69,7 @@ public final class DecorationHelper {
             pos = pos.down(vary - 1);
         }
         if (!world.isAirBlock(pos.down())) {
-            if (!world.getBlockState(pos).getBlock().getMaterial().isLiquid()) {
+            if (!world.getBlockState(pos).getMaterial().isLiquid()) {
                 world.setBlockState(pos.down(), Utils.frozen.getDefaultState(), 2);
                 world.setBlockState(pos, WildCaves.blockFlora.getStateFromMeta(Utils.randomChoise(6, 7, 8, 9)), 2);
             }
@@ -83,7 +83,7 @@ public final class DecorationHelper {
         world.setBlockState(pos, WildCaves.blockDecorations.getStateFromMeta(Utils.randomChoise(0, 1, 2)), 2);
         Utils.convertToFrozenType(world, random, pos);
         BlockPos botY = pos.down(distance - 1);
-        if (distance!=0 && !world.getBlockState(botY).getBlock().getMaterial().isLiquid()) {
+        if (distance!=0 && !world.getBlockState(botY).getMaterial().isLiquid()) {
             Utils.convertToFrozenType(world, random, botY);
         }
     }
@@ -115,7 +115,7 @@ public final class DecorationHelper {
         EnumFacing side = EnumFacing.values()[random.nextInt(4)+2];
         // length of the vine
         int i=0;
-        while(i<aux && !world.getBlockState(pos.down(i)).getBlock().getMaterial().isLiquid()){
+        while(i<aux && !world.getBlockState(pos.down(i)).getMaterial().isLiquid()){
             world.setBlockState(pos.down(i), Blocks.vine.getDefaultState().withProperty(BlockVine.getPropertyFor(side), true), 0);
             i+=1;
         }

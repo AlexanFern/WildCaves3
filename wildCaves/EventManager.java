@@ -1,6 +1,6 @@
 package wildCaves;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.event.terraingen.OreGenEvent;
@@ -19,8 +19,8 @@ public final class EventManager
 
 	@SubscribeEvent
 	public void generate(OreGenEvent.Post oreGen){
-        if (!WorldGenWildCaves.dimensionBlacklist.contains(oreGen.world.provider.getDimensionId())) {
-            this.addOreSpawn(oreGen.rand.nextInt(mines.length), oreGen.world, oreGen.rand, oreGen.pos);
+        if (!WorldGenWildCaves.dimensionBlacklist.contains(oreGen.getWorld().provider.getDimension())) {
+            this.addOreSpawn(oreGen.getRand().nextInt(mines.length), oreGen.getWorld(), oreGen.getRand(), oreGen.getPos());
         }
     }
 

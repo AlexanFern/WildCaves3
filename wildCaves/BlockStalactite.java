@@ -2,9 +2,8 @@ package wildCaves;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -12,10 +11,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,7 +31,6 @@ public class BlockStalactite extends Block {
 		super(Material.rock);
         this.droppedItem = drop;
 		this.setHardness(0.8F);
-		this.setCreativeTab(WildCaves.tabWildCaves);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ALL_TYPE, 0));
 	}
 
@@ -45,16 +43,16 @@ public class BlockStalactite extends Block {
 	}
 
 	@Override
-	protected BlockState createBlockState(){
+	protected BlockStateContainer createBlockState(){
 		if(ALL_TYPE == null) {
 			ALL_TYPE = PropertyInteger.create("type", 0, getNumOfStructures() - 1);
 		}
-		return new BlockState(this, new IProperty[]{ALL_TYPE});
+		return new BlockStateContainer(this, ALL_TYPE);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state){
-		return (Integer) state.getValue(ALL_TYPE);
+		return state.getValue(ALL_TYPE);
 	}
 
 	@Override
@@ -100,25 +98,17 @@ public class BlockStalactite extends Block {
 		i = increment;
 		while (world.getBlockState(pos.up(i)).getBlock() == WildCaves.blockStoneStalactite || world.getBlockState(pos.up(i)).getBlock() == WildCaves.blockSandStalactite)
 			i = i + increment;
-		return world.getBlockState(pos.up(i)).getBlock().isNormalCube(world, pos.up(i));
+		return world.getBlockState(pos.up(i)).isNormalCube();
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World par1World, BlockPos pos, IBlockState state) {
-		if (WildCaves.solidStalactites)
-			return super.getCollisionBoundingBox(par1World, pos, state);
-		else
-			return null;
-	}
-
-	@Override
-	public int getDamageValue(World world, BlockPos pos) {
-		return getMetaFromState(world.getBlockState(pos));
+	public int damageDropped(IBlockState state) {
+		return getMetaFromState(state);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
 		for (int i = 0; i < getNumOfStructures(); ++i) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
@@ -126,14 +116,9 @@ public class BlockStalactite extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer()
+	public BlockRenderLayer getBlockLayer()
 	{
-		return EnumWorldBlockLayer.CUTOUT;
-	}
-
-	@Override
-	public boolean isFullBlock() {
-		return false;
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
@@ -166,6 +151,12 @@ public class BlockStalactite extends Block {
 	}
 
 	@Override
+	public void onLanded(World world, Entity entity) {
+		if(WildCaves.solidStalactites)
+			super.onLanded(world, entity);
+	}
+
+	@Override
 	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighbor) {
 		if (!world.isRemote && !this.canBlockStay(world, pos, state)) {
 			world.destroyBlock(pos, true);
@@ -173,29 +164,54 @@ public class BlockStalactite extends Block {
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean isFullBlock(IBlockState state) {
 		return false;
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, BlockPos pos) {
-		int metadata = getMetaFromState(par1IBlockAccess.getBlockState(pos));
-		switch (metadata) {
-		case 1:
-			this.setBlockBounds(0.25F, 0.2F, 0.25F, 0.75F, 1F, 0.75F);
-			break;
-		case 2:
-			this.setBlockBounds(0.25F, 0.5F, 0.25F, 0.75F, 1F, 0.75F);
-			break;
-		case 9:
-			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.8F, 0.75F);
-			break;
-		case 10:
-			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.4F, 0.75F);
-			break;
-		default:
-			this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 1F, 0.75F);
-			break;
-		}
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isBlockNormalCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isNormalCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isVisuallyOpaque() {
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isPassable(IBlockAccess access, BlockPos pos) {
+		return !WildCaves.solidStalactites || super.isPassable(access, pos);
+	}
+
+	@Override
+	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB alignedBB, List<AxisAlignedBB> list, Entity entity) {
+		if(WildCaves.solidStalactites)
+			super.addCollisionBoxToList(state, world, pos, alignedBB, list, entity);
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess par1IBlockAccess, BlockPos pos) {
+		return Utils.getBox(getMetaFromState(state));
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isTranslucent(IBlockState state) {
+		return true;
 	}
 }

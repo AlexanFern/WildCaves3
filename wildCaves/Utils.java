@@ -3,8 +3,10 @@ package wildCaves;
 import java.util.*;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public final class Utils {
@@ -112,5 +114,22 @@ public final class Utils {
 			return 5;
 		else
 			return 6;
+	}
+
+	private static AxisAlignedBB HIGH_AABB = new AxisAlignedBB(0.25F, 0.5F, 0.25F, 0.75F, 1F, 0.75F);
+	private static AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1F, 0.75F);
+	public static AxisAlignedBB getBox(int state){
+		switch (state) {
+			case 1:
+				return HIGH_AABB.addCoord(0, -0.3F, 0);
+			case 2:
+				return HIGH_AABB;
+			case 9:
+				return DEFAULT_AABB.setMaxY(0.8F);
+			case 10:
+				return DEFAULT_AABB.setMaxY(0.4F);
+			default:
+				return DEFAULT_AABB;
+		}
 	}
 }

@@ -2,7 +2,7 @@ package wildCaves.generation.structureGen;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import wildCaves.Utils;
 import wildCaves.WildCaves;
@@ -35,7 +35,7 @@ public class GenerateStoneStalactite {
 				j++;
 			}
 			// stalagmite base
-			if (!world.getBlockState(botY).getBlock().getMaterial().isLiquid() && WorldGenWildCaves.isWhiteListed(world.getBlockState(botY.down()).getBlock())) {
+			if (!world.getBlockState(botY).getMaterial().isLiquid() && WorldGenWildCaves.isWhiteListed(world.getBlockState(botY.down()).getBlock())) {
 				aux = Utils.randomChoise(-1, 8, 9, 10);
 				if (aux != -1) {
                     generateStalagmiteBase(world, random, botY, aux);
@@ -46,7 +46,7 @@ public class GenerateStoneStalactite {
 			if (j==2) {
                 int k = 0; // counter
                 int topMetadata, bottomMetadata;
-				while (k < maxLength && topY.getY() >= botY.getY() && j < distance && !world.getBlockState(topY.down()).getBlock().getMaterial().isLiquid()) {
+				while (k < maxLength && topY.getY() >= botY.getY() && j < distance && !world.getBlockState(topY.down()).getMaterial().isLiquid()) {
 					k++;
 					IBlockState state = world.getBlockState(topY);
 					topMetadata = state.getBlock().getMetaFromState(state);
