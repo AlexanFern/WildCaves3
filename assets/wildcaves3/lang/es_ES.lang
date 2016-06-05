@@ -1,0 +1,49 @@
+
+itemGroup.WildCaves3=Wild Caves 3
+
+fossil1.name=Montón de Huesos
+
+stalactite1.name=Estalactita
+stalactite2.name=Estalactita
+stalactite3.name=Estalactita
+stalactite4.name=Estalactita
+stalactiteConnection1.name=Estalactita
+stalactiteConnection2.name=Estalactita
+stalactiteConnection3.name=Estalactita
+stalactiteConnection4.name=Estalactita
+stalactiteEnd.name=Estalagmita
+stalacmiteEnd.name=Estalagmita
+stalacmite1.name=Estalagmita
+stalacmite2.name=Estalagmita
+stalacmite3.name=Estalagmita
+
+sandstoneStalactite1.name=Estalactita de Arenisca
+sandstoneStalactite2.name=Estalactita de Arenisca
+sandstoneStalactite3.name=Estalactita de Arenisca
+sandstoneStalactite4.name=Estalactita de Arenisca
+sandstoneStalactiteConnection1.name=Estalactita de Arenisca
+sandstoneStalactiteConnection2.name=Estalactita de Arenisca
+sandstoneStalactiteConnection3.name=Estalactita de Arenisca
+sandstoneStalactiteConnection4.name=Estalactita de Arenisca
+sandstoneStalactiteEnd.name=Estalagmita de Arenisca
+sandstoneStalacmiteEnd.name=Estalagmita de Arenisca
+sandstoneStalacmite1.name=Estalagmita de Arenisca
+sandstoneStalacmite2.name=Estalagmita de Arenisca
+sandstoneStalacmite3.name=Estalagmita de Arenisca
+
+glowcap1.name=Seta Brillante
+glowcap2.name=Seta Brillante
+glowcap3.name=Seta Brillante
+gloweed1.name=Hierba Brillante
+glowcap4top.name=Seta Brillante
+glowcap4bottom.name=Seta Brillante
+
+bluecap1.name=Seta de Hielo
+bluecap2.name=Seta de Hielo
+bluecap3.name=Seta de Hielo
+bluecap4.name=Seta de Hielo
+
+icicle.name=Carámbano
+icicle1.name=Carámbano
+icicle2.name=Carámbano
+icicle3.name=Carámbano

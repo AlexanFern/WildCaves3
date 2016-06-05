@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+/*plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
+}*/
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+version = "0.4.3.7"
+minecraft {
+    version = "1.9-12.16.1.1904"
+    runDir = "eclipse"
+    mappings = "snapshot_20160312"
+    replace '${version}', version
+	makeObfSourceJar = false
+}
+archivesBaseName = project.projectDir.name
+sourceSets.main.java{srcDirs project.projectDir.getPath() include("wildCaves/**")}
+sourceSets.main.resources{srcDirs project.projectDir.getPath() include("assets/**" , "WildCaves3.png", "*.info", "*.mcmeta", "*.md")}
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    // replace stuff in mcmod.info, nothing else
+    from(project.sourceSets.main.resources.srcDirs) {
+        include "mcmod.info"
+        // replace version and mcversion
+        expand([version:project.version, mcversion:project.minecraft.version])
+    }
+    // copy images and lang files
+    from(project.sourceSets.main.resources.srcDirs) {
+        include "assets/**", "*.png", "*.mcmeta", "*.md"
+    }
+}
+jar {
+    //Keep the jar as clean as possible
+    includeEmptyDirs = false
+    //Append with minecraft version
+    classifier = "("+minecraft.version+")"
+    archiveName = archivesBaseName + "-" + version + classifier+"."+extension
+}

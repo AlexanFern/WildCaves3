@@ -1,0 +1,6 @@
+{
+  "parent":"block/cross",
+  "textures": {
+    "cross": "wildcaves3:blocks/sandstoneStructure12"
+  }
+}

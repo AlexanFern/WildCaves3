@@ -1,65 +1,64 @@
 package wildCaves;
 
-import java.util.Random;
+import java.util.*;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Utils {
-	//checks if a given int is in the given array
-	public static boolean arrayContainsInt(int[] array, int a) {
-		boolean result = false;
-		int i = 0;
-		while (i < array.length && !result) {
-			if (array[i] == a)
-				result = true;
-			i++;
-		}
-		return result;
-	}
-
+public final class Utils {
+    public static Block frozen = Blocks.ice;
+    public static List<Block> freezable = Arrays.asList(Blocks.stone, Blocks.dirt, Blocks.gravel, Blocks.grass);
 	// transforms an area into snow and ice
-	public static void convertToFrozenType(World world, Random random, int x, int y, int z) {
+	public static void convertToFrozenType(World world, Random random, BlockPos pos) {
 		int height = random.nextInt(5) + 3;
 		int length = random.nextInt(5) + 3;
 		int width = random.nextInt(5) + 3;
-		int newX = x - length / 2;
-		int newY = y + height / 2;
-		int newZ = z - width / 2;
-		int aux;
+		int newX = pos.getX() - length / 2;
+		int newY = pos.getY() + height / 2;
+		int newZ = pos.getZ() - width / 2;
+		Block aux;
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < length; j++) {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.8f, 0.2f, 0, 0, 0, 0) == 1) {
-						aux = world.getBlockId(newX + j, newY - i, newZ + k);
-						if (aux == Block.stone.blockID || aux == Block.dirt.blockID || aux == Block.gravel.blockID || aux == Block.grass.blockID)// stone -> Ice
-							world.setBlock(newX + j, newY - i, newZ + k, Block.ice.blockID);
+						BlockPos newPos = new BlockPos(newX + j, newY - i, newZ + k);
+						aux = world.getBlockState(newPos).getBlock();
+						if (freezable.contains(aux))// stone -> Ice
+							world.setBlockState(newPos, frozen.getDefaultState(), 2);
 					}
 				}
 			}
 		}
 	}
-
+    private static IdentityHashMap<Block, Block> sandEquivalent = new IdentityHashMap<Block, Block>(8);
+    static{
+        sandEquivalent.put(Blocks.stone, Blocks.sandstone);
+        sandEquivalent.put(Blocks.dirt, Blocks.sand);
+        sandEquivalent.put(Blocks.gravel, Blocks.sand);
+    }
 	//transform an area in to sand and sandstone
-	public static void convertToSandType(World world, Random random, int x, int y, int z) {
+	public static void convertToSandType(World world, Random random, BlockPos pos) {
 		int height = random.nextInt(5) + 3;
 		int length = random.nextInt(5) + 3;
 		int width = random.nextInt(5) + 3;
-		int newX = x - length / 2;
-		int newY = y + height / 2;
-		int newZ = z - width / 2;
-		int aux;
+		int newX = pos.getX() - length / 2;
+		int newY = pos.getY() + height / 2;
+		int newZ = pos.getZ() - width / 2;
+		Block aux;
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < length; j++) {
 				for (int k = 0; k < width; k++) {
 					// basically transform or not
 					if (weightedChoise(0.7f, 0.3f, 0, 0, 0, 0) == 1) {
-						aux = world.getBlockId(newX + j, newY - i, newZ + k);
-						if (aux == Block.stone.blockID)// stone -> sandstone
-							world.setBlock(newX + j, newY - i, newZ + k, Block.sandStone.blockID, 0, 2);
-						else if (aux == Block.dirt.blockID || aux == Block.gravel.blockID) // dirt/gravel -> sand
-							world.setBlock(newX + j, newY - i, newZ + k, Block.sand.blockID, 0, 2);
+						BlockPos newPos = new BlockPos(newX + j, newY - i, newZ + k);
+						aux = sandEquivalent.get(world.getBlockState(newPos).getBlock());
+						if (aux != null)// stone -> sandstone // dirt/gravel -> sand
+							world.setBlockState(newPos, aux.getDefaultState(), 2);
 					}
 				}
 			}
@@ -67,10 +66,10 @@ public class Utils {
 	}
 
 	// gets the number of empty blocks between the current one and the closest one bellow
-	public static int getNumEmptyBlocks(World world, int x, int y, int z) {
+	public static int getNumEmptyBlocks(World world, BlockPos pos) {
 		int dist = 0;
-		while (!world.isBlockNormalCube(x, y, z) && y > 5 && world.getBlockTileEntity(x, y, z) == null) {
-			y--;
+		while (pos.getY() > 5 && !world.isBlockNormalCube(pos, true) && world.isAirBlock(pos)) {
+			pos = pos.down();
 			dist++;
 		}
 		return dist;
@@ -88,7 +87,7 @@ public class Utils {
 	public static int weightedChoise(float par1, float par2, float par3, float par4, float par5, float par6) {
 		float total = par1 + par2 + par3 + par4 + par5 + par6;
 		float val = new Random().nextFloat();
-		float previous = 0.0f;
+		float previous;
 		par1 = par1 / total;
 		par2 = par2 / total;
 		par3 = par3 / total;
@@ -115,5 +114,22 @@ public class Utils {
 			return 5;
 		else
 			return 6;
+	}
+
+	private static AxisAlignedBB HIGH_AABB = new AxisAlignedBB(0.25F, 0.5F, 0.25F, 0.75F, 1F, 0.75F);
+	private static AxisAlignedBB DEFAULT_AABB = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1F, 0.75F);
+	public static AxisAlignedBB getBox(int state){
+		switch (state) {
+			case 1:
+				return HIGH_AABB.addCoord(0, -0.3F, 0);
+			case 2:
+				return HIGH_AABB;
+			case 9:
+				return DEFAULT_AABB.setMaxY(0.8F);
+			case 10:
+				return DEFAULT_AABB.setMaxY(0.4F);
+			default:
+				return DEFAULT_AABB;
+		}
 	}
 }

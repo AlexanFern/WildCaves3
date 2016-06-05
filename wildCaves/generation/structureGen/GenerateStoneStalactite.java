@@ -1,81 +1,87 @@
 package wildCaves.generation.structureGen;
 
-import java.util.Random;
-
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import wildCaves.Utils;
 import wildCaves.WildCaves;
+import wildCaves.WorldGenWildCaves;
 
-import net.minecraft.world.World;
+import java.util.Random;
 
-public class GenerateStoneStalactite
-{
-	public static void generate(World world, Random random, int x, int y, int z, int distance, int maxLength) 
-	{
+public class GenerateStoneStalactite {
+    public final Block blockId;
+    public GenerateStoneStalactite(){this(WildCaves.blockStoneStalactite);}
+    public GenerateStoneStalactite(Block toGen){
+        blockId = toGen;
+    }
+
+	public void generate(World world, Random random, BlockPos pos, int distance, int maxLength) {
 		boolean stalagmiteGenerated = false;
-		int blockId = WildCaves.blockStoneStalactiteID;
-		if (distance == 1) 
-		{
-			//x,y,z,blockID, metadate, set the last one to 2
-			world.setBlock(x, y, y, blockId, 0, 2);
-		} 
-		else 
-		{
-			int k = 0; // counter
+		if (distance <= 1) {
+			//x,y,z,blockID, metadata, no update
+            if (!world.isAirBlock(pos.up())) {
+			    world.setBlockState(pos, blockId.getDefaultState(), 2);
+            }
+		} else {
 			int j = 0; // blocks placed
-			int topMetadata = 0;
-			int bottomMetadata = 0;
-			int topY = y;
-			int botY = y - distance + 1;
+			BlockPos topY = new BlockPos(pos);
+			BlockPos botY = pos.down(distance - 1);
 			int aux;
-
 			//stalactite base
-			world.setBlock(x, topY, z, blockId, Utils.randomChoise(1, 2, 3, 3), 2);
-			j++;
-
+			if (!world.isAirBlock(topY.up())) {
+                generateStalactiteBase(world, random, topY);
+				j++;
+			}
 			// stalagmite base
-			if(!world.getBlockMaterial(x, botY, z).isLiquid() && !world.isAirBlock(x, botY-1, z))
-			{
+			if (!world.getBlockState(botY).getMaterial().isLiquid() && WorldGenWildCaves.isWhiteListed(world.getBlockState(botY.down()).getBlock())) {
 				aux = Utils.randomChoise(-1, 8, 9, 10);
-				if (aux != -1) 
-				{
-					world.setBlock(x, botY, z, blockId, aux, 2);
+				if (aux != -1) {
+                    generateStalagmiteBase(world, random, botY, aux);
 					j++;
 					stalagmiteGenerated = true;
 				}
 			}
-			
-			if (distance > 2) 
-			{
-				while (k < maxLength && topY >= botY && j < distance && !world.getBlockMaterial(x, topY-1, z).isLiquid()) 
-				{
+			if (j==2) {
+                int k = 0; // counter
+                int topMetadata, bottomMetadata;
+				while (k < maxLength && topY.getY() >= botY.getY() && j < distance && !world.getBlockState(topY.down()).getMaterial().isLiquid()) {
 					k++;
-					topMetadata = world.getBlockMetadata(x, topY, z);
-					bottomMetadata = world.getBlockMetadata(x, botY, z);
-					topY--;
-					botY++;
+					IBlockState state = world.getBlockState(topY);
+					topMetadata = state.getBlock().getMetaFromState(state);
+					state = world.getBlockState(botY);
+					bottomMetadata = state.getBlock().getMetaFromState(state);
+					topY = topY.down();
+					botY = botY.up();
 					// Expand downwards
-					if(world.isAirBlock(x, topY, z) && topMetadata > 2 && topMetadata < 6)
-					{
+					if (world.isAirBlock(topY) && topMetadata > 2 && topMetadata < 6) {
 						aux = random.nextInt(5);
-						if (aux != 4) 
-							world.setBlock(x, topY, z, blockId, Utils.randomChoise(4, 5, 7, 11), 2);
-						else 
-							world.setBlock(x, topY, z, blockId, Utils.randomChoise(7, 11),2);
+						if (aux != 4)
+							world.setBlockState(topY, blockId.getStateFromMeta(Utils.randomChoise(4, 5, 7, 11)), 2);
+						else
+							world.setBlockState(topY, blockId.getStateFromMeta(Utils.randomChoise(7, 11)), 2);
 						j++;
 					}
-				
 					// Expand upwards
-					if (world.isAirBlock(x, botY, z) && (bottomMetadata > 3 && bottomMetadata < 5 || bottomMetadata == 8) && j < distance && stalagmiteGenerated) 
-					{
+					if (world.isAirBlock(botY) && (bottomMetadata > 3 && bottomMetadata < 5 || bottomMetadata == 8) && j < distance && stalagmiteGenerated) {
 						aux = random.nextInt(5);
-						if (aux != 4) 
-							world.setBlock(x, botY, z, blockId, Utils.randomChoise(4, 5, 6, 12),2);
-						else 
-							world.setBlock(x, botY, z, blockId, Utils.randomChoise(12, 6),2);
+						if (aux != 4)
+							world.setBlockState(botY, blockId.getStateFromMeta(Utils.randomChoise(4, 5, 6, 12)), 2);
+						else
+							world.setBlockState(botY, blockId.getStateFromMeta(Utils.randomChoise(12, 6)), 2);
 						j++;
 					}
 				}
 			}
 		}
 	}
+
+    protected void generateStalagmiteBase(World world, Random random, BlockPos botY, int aux) {
+        world.setBlockState(botY, blockId.getStateFromMeta(aux), 2);
+    }
+
+    protected void generateStalactiteBase(World world, Random random, BlockPos topY) {
+        world.setBlockState(topY, blockId.getStateFromMeta(Utils.randomChoise(1, 2, 3, 3)), 2);
+    }
 }

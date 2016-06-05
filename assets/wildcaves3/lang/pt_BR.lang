@@ -1,0 +1,49 @@
+
+itemGroup.WildCaves3=Wild Caves 3
+
+fossil1.name=Pilha de Ossos
+
+stalactite1.name=Estalactite
+stalactite2.name=Estalactite
+stalactite3.name=Estalactite
+stalactite4.name=Estalactite
+stalactiteConnection1.name=Estalactite
+stalactiteConnection2.name=Estalactite
+stalactiteConnection3.name=Estalactite
+stalactiteConnection4.name=Estalactite
+stalactiteEnd.name=Estalactite
+stalacmiteEnd.name=Estalagmite
+stalacmite1.name=Estalagmite
+stalacmite2.name=Estalagmite
+stalacmite3.name=Estalagmite
+
+sandstoneStalactite1.name=Estalactite de Arenito
+sandstoneStalactite2.name=Estalactite de Arenito
+sandstoneStalactite3.name=Estalactite de Arenito
+sandstoneStalactite4.name=Estalactite de Arenito
+sandstoneStalactiteConnection1.name=Estalactite de Arenito
+sandstoneStalactiteConnection2.name=Estalactite de Arenito
+sandstoneStalactiteConnection3.name=Estalactite de Arenito
+sandstoneStalactiteConnection4.name=Estalactite de Arenito
+sandstoneStalactiteEnd.name=Estalactite de Arenito
+sandstoneStalacmiteEnd.name=Estalagmite de Arenito
+sandstoneStalacmite1.name=Estalagmite de Arenito
+sandstoneStalacmite2.name=Estalagmite de Arenito
+sandstoneStalacmite3.name=Estalagmite de Arenito
+
+glowcap1.name=Chlorophos
+glowcap2.name=Chlorophos
+glowcap3.name=Chlorophos
+gloweed1.name=Erva do Brilho
+glowcap4top.name=Chlorophos
+glowcap4bottom.name=Chlorophos
+
+bluecap1.name=Cogumelo Anil
+bluecap2.name=Cogumelo Anil
+bluecap3.name=Cogumelo Anil
+bluecap4.name=Cogumelo Anil
+
+icicle.name=Cogumelo Picolé
+icicle1.name=Cogumelo Picolé
+icicle2.name=Cogumelo Picolé
+icicle3.name=Cogumelo Picolé

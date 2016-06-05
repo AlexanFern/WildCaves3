@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "type=0": { "model": "wildcaves3:sandstone_0" },
+    "type=1": { "model": "wildcaves3:sandstone_1" },
+    "type=2": { "model": "wildcaves3:sandstone_2" },
+    "type=3": { "model": "wildcaves3:sandstone_3" },
+    "type=4": { "model": "wildcaves3:sandstone_4" },
+    "type=5": { "model": "wildcaves3:sandstone_5" },
+    "type=6": { "model": "wildcaves3:sandstone_6" },
+    "type=7": { "model": "wildcaves3:sandstone_7" },
+    "type=8": { "model": "wildcaves3:sandstone_8" },
+    "type=9": { "model": "wildcaves3:sandstone_9" },
+    "type=10": { "model": "wildcaves3:sandstone_10" },
+    "type=11": { "model": "wildcaves3:sandstone_11" },
+    "type=12": { "model": "wildcaves3:sandstone_12" }
+  }
+}

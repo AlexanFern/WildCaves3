@@ -1,0 +1,49 @@
+﻿
+itemGroup.WildCaves3=Wild Caves 3
+
+fossil1.name=Bone pile
+
+stalactite1.name=Stalactite
+stalactite2.name=Stalactite
+stalactite3.name=Stalactite
+stalactite4.name=Stalactite
+stalactiteConnection1.name=Stalactite
+stalactiteConnection2.name=Stalactite
+stalactiteConnection3.name=Stalactite
+stalactiteConnection4.name=Stalactite
+stalactiteEnd.name=Stalactite
+stalacmiteEnd.name=Stalagmite
+stalacmite1.name=Stalagmite
+stalacmite2.name=Stalagmite
+stalacmite3.name=Stalagmite
+
+sandstoneStalactite1.name=Sandstone Stalactite
+sandstoneStalactite2.name=Sandstone Stalactite
+sandstoneStalactite3.name=Sandstone Stalactite
+sandstoneStalactite4.name=Sandstone Stalactite
+sandstoneStalactiteConnection1.name=Sandstone Stalactite
+sandstoneStalactiteConnection2.name=Sandstone Stalactite
+sandstoneStalactiteConnection3.name=Sandstone Stalactite
+sandstoneStalactiteConnection4.name=Sandstone Stalactite
+sandstoneStalactiteEnd.name=Sandstone Stalactite
+sandstoneStalacmiteEnd.name=Sandstone Stalagmite
+sandstoneStalacmite1.name=Sandstone stalagmite
+sandstoneStalacmite2.name=Sandstone stalagmite
+sandstoneStalacmite3.name=Sandstone stalagmite
+
+glowcap1.name=Glowcap
+glowcap2.name=Glowcap
+glowcap3.name=Glowcap
+gloweed1.name=Glow weed
+glowcap4top.name=Glowcap
+glowcap4bottom.name=Glowcap
+
+bluecap1.name=Iceshroom
+bluecap2.name=Iceshroom
+bluecap3.name=Iceshroom
+bluecap4.name=Iceshroom
+
+icicle.name=Icicle
+icicle1.name=Icicle
+icicle2.name=Icicle
+icicle3.name=Icicle

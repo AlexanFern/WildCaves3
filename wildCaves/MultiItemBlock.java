@@ -1,24 +1,29 @@
 package wildCaves;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class MultiItemBlock extends ItemBlock {
-	private final String[] subNames;
+import java.util.ArrayList;
 
-	public MultiItemBlock(int par1, String... names) {
-		super(par1);
+public class MultiItemBlock extends ItemBlock {
+	private final ArrayList<String> subNames;
+
+	public MultiItemBlock(Block block, ArrayList<String> names) {
+		super(block);
 		this.subNames = names;
 		setHasSubtypes(true);
 	}
 
 	@Override
-	public int getMetadata(int damageValue) {
-		return damageValue;
+	public int getMetadata(int damage) {
+		if (damage >= subNames.size())
+			damage = 0;
+		return damage;
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return subNames[itemstack.getItemDamage()];
+		return subNames.get(itemstack.getMetadata());
 	}
 }

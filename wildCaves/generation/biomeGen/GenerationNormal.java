@@ -1,69 +1,40 @@
 package wildCaves.generation.biomeGen;
 
-import java.util.Random;
-
-import wildCaves.Utils;
-import wildCaves.generation.structureGen.GenerateGlowcaps;
-import wildCaves.generation.structureGen.GenerateSkulls;
-import wildCaves.generation.structureGen.GenerateStoneStalactite;
-import wildCaves.generation.structureGen.GenerateVines;
-
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import wildCaves.Utils;
+import wildCaves.WorldGenWildCaves;
+import wildCaves.generation.structureGen.DecorationHelper;
+import wildCaves.generation.structureGen.GenerateStoneStalactite;
 
-public class GenerationNormal extends WorldGenerator
-{
-	private static float probabilityGlowcaps;
-	private static float probabilityStalactite;
-	private static float probabilityVines;
-	private static float probabilitySpiderWeb;
-	private static float probabilitySkulls;
-	private static int maxLength;
-	private static int maxGenHeightGlowcapNormal;
-	
-	public GenerationNormal(float probabilityStalactite, int maxLength, float probabilityGlowcaps, float probabilityVines, float probabilitySpiderWeb, float probabilitySkulls, int maxGenHeightGlowcapNormal)
-	{
-		this.probabilityStalactite = probabilityStalactite;
-		this.maxLength = maxLength;
-		this.probabilityVines = probabilityVines;
-		this.probabilitySpiderWeb = probabilitySpiderWeb;
-		this.probabilitySkulls = probabilitySkulls;
-		this.maxGenHeightGlowcapNormal = maxGenHeightGlowcapNormal;
+import java.util.Random;
+
+public final class GenerationNormal extends WorldGenerator {
+	public GenerationNormal() {
 	}
 
 	@Override
-	public boolean generate(World world, Random random, int x, int y, int z) 
-	{
-		boolean success = false;
-		float glowcapsAux = 0;
-		if(y<maxGenHeightGlowcapNormal)
-			glowcapsAux = probabilityGlowcaps;
-
-		switch(Utils.weightedChoise(probabilityVines, probabilitySpiderWeb, probabilityStalactite, probabilityGlowcaps, probabilitySkulls, 0))
-		{
-			case 1:
-				GenerateVines.generate(world, random, x, y, z);
-				success = true;
-				break;
-			case 2:
-				world.setBlock(x, y , z, Block.web.blockID);
-				break;
-			case 3:
-				GenerateStoneStalactite.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z), maxLength);
-				success = true;
-				break;
-			case 4:
-				GenerateGlowcaps.generate(world, random, x, y-Utils.getNumEmptyBlocks(world, x, y, z)+1, z);
-				success = true;
-				break;
-			case 5:
-				GenerateSkulls.generate(world, random, x, y, z, Utils.getNumEmptyBlocks(world, x, y, z));
-				success = true;
-				break;			
+	public boolean generate(World world, Random random, BlockPos pos) {
+		switch (Utils.weightedChoise(WorldGenWildCaves.probabilityVines, WorldGenWildCaves.probabilitySpiderWeb, WorldGenWildCaves.probabilityStalactite, WorldGenWildCaves.probabilityGlowcaps,
+				WorldGenWildCaves.probabilitySkulls, 0)) {
+		case 1:
+			DecorationHelper.generateVines(world, random, pos);
+            return true;
+		case 2:
+			world.setBlockState(pos, Blocks.web.getDefaultState(), 2);
+            return true;
+		case 3:
+            new GenerateStoneStalactite().generate(world, random, pos, Utils.getNumEmptyBlocks(world, pos), WorldGenWildCaves.maxLength);
+            return true;
+		case 4:
+			DecorationHelper.generateGlowcaps(world, random, pos);
+            return true;
+		case 5:
+			DecorationHelper.generateSkulls(world, random, pos, Utils.getNumEmptyBlocks(world, pos));
+            return true;
 		}
-		return success;
+        return false;
 	}
 }

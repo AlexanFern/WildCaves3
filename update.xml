@@ -1,0 +1,44 @@
+<mod modid="wildcaves3">
+    <mcVersion version="1.9">
+        <release type="release" version="0.4.3.7"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/ap6lg1y79dglbcn/WildCaves3-0.4.3.7(1.9).jar"
+                 md5="C14394A49ADC89E4DB9934EF46FD043E"
+                />
+    </mcVersion>
+    <mcVersion version="1.8">
+        <release type="release" version="0.4.3.7"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/o98mrg4h1wsw39a/WildCaves3-0.4.3.7(1.8).jar"
+                 md5="EE53F722052AE37F4F1CE163D208243A"
+                />
+    </mcVersion>
+    <mcVersion version="1.7.10">
+        <release type="release" version="0.4.3.7"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/ub48kk5i1rmsrgw/WildCaves3-0.4.3.7(1.7.10).jar"
+                 md5="BE5D353BB43B79F74865ECAABC92FC48"
+                />
+    </mcVersion>
+    <mcVersion version="1.7.2">
+        <release type="release" version="0.4.3.6"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/zgy7y4c0af4284x/WildCaves3-0.4.3.6(1.7.2).jar"
+                 md5="3B7B2810E813935E88E9129A4614AD2F"
+                />
+    </mcVersion>
+	<mcVersion version="1.6.4">
+        <release type="release" version="0.4.3.5"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/19bepq6517g185c/WildCaves3-0.4.3.5.jar"
+                 md5="9C2499C7BF9BBC517B373119CD9BE551"
+                />
+    </mcVersion>
+    <mcVersion version="1.6.2">
+        <release type="release" version="0.4.3.5"
+                 url="http://www.minecraftforum.net/topic/1651891-/#WildCaves"
+                 download="http://www.mediafire.com/download/19bepq6517g185c/WildCaves3-0.4.3.5.jar"
+                 md5="9C2499C7BF9BBC517B373119CD9BE551"
+                />
+    </mcVersion>
+</mod>
